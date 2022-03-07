@@ -13,5 +13,7 @@ class MyApp(App):
 	def build(self):
 		return Label(text = "Hello World")
 
+
+#Runs the application
 if __name__ == '__main__':
 	MyApp().run()
