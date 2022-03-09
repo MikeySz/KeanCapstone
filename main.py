@@ -5,14 +5,15 @@
 #Imports-------------------------
 import kivy
 from kivy.app import App
-from kivy.uix.label import Label
+from kivy.lang import Builder
 
 #--------------------------------
+GUI = Builder.load_file("main.kv")
+
 
 class MyApp(App):
 	def build(self):
-		return Label(text = "Hello World")
-
+		return GUI
 
 #Runs the application
 if __name__ == '__main__':
