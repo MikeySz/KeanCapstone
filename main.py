@@ -7,10 +7,14 @@
 #Imports-------------------------
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager,Screen
-
+from kivy.uix.screenmanager import ScreenManager,Screen,NoTransition
+from kivy.uix.button import ButtonBehavior
+from kivy.uix.image import Image
 
 #--------------------------------
+class ImageButton(ButtonBehavior, Image):
+	pass
+
 class HomeScreen(Screen):
 	pass
 
@@ -24,7 +28,7 @@ class MyApp(App):
 	def build(self):
 		return GUI
 
-	def change_screen(self,screen_name,transition,direction):
+	def change_screen(self,screen_name):
 		# Screen manager from main.kv
 		#print(self.root.ids) #Code used to test the screen_name id
 		
@@ -32,7 +36,7 @@ class MyApp(App):
 		#from the page(screen) calling the change_screen method
 		#sets the id to match the new id
 		screen_manager = self.root.ids['screen_manager']
-		
+		screen_manager.transition = NoTransition()
 		screen_manager.current = screen_name
 		#
 
