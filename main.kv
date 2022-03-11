@@ -2,14 +2,42 @@
 #:include classes\homescreen.kv
 #:include classes\settingsscreen.kv
 
+FloatLayout:
 
-GridLayout:
-	cols: 1
-	ScreenManager:
-		id: screen_manager
-		HomeScreen:
-			name: "home_screen"
-			id: home_screen
-		SettingsScreen:
-			name: "settings_screen"
-			id: settings_screen
+	# ScreenManager
+	GridLayout:
+		cols: 1
+		ScreenManager:
+			id: screen_manager
+			HomeScreen:
+				name: "home_screen"
+				id: home_screen
+			SettingsScreen:
+				name: "settings_screen"
+				id: settings_screen
+	GridLayout:
+		rows:1
+		pos_hint: {"bottom": 1, "left":1}
+		size_hint: 1, .1
+		#Bottom Icons
+		#Home Button
+		Label:
+
+		ImageButton:
+			source: 
+				"Images\Icons\HomeIcon.png"
+			on_press:
+				self.source ="Images\Icons\HomeIcon2.png"
+			on_release:
+				app.change_screen("home_screen")
+				self.source = "Images\Icons\HomeIcon.png"
+
+			#Settings Button		
+		ImageButton:
+			source: 
+				"Images\Icons\SettingsGear.png"
+			on_press:
+				self.source ="Images\Icons\SettingsGear2.png"
+			on_release:
+				app.change_screen("settings_screen")
+				self.source ="Images\Icons\SettingsGear.png"

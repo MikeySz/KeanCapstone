@@ -1,9 +1,17 @@
 # Setting Screen Layout
+#:import utils kivy.utils
 
 <SettingsScreen>:
-	Button:
-		text: "Settings"
+	FloatLayout:
+		# Top Row Icons
+		GridLayout:
+			rows:1
+			pos_hint: {"top": 1, "left":1}
+			size_hint: 1, .1
+			#Top Icons
+			Label:
+				markup: True
+				text: '[color=000000]Settings[/color]' 
+				font_size: 35
 
-		on_release:
-			app.change_screen("home_screen")
-
+			

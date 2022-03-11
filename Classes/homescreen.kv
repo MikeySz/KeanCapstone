@@ -3,44 +3,17 @@
 
 <HomeScreen>:
 	FloatLayout:
-		canvas:
-			Color:
-				rgb: utils.get_color_from_hex("#d9d2e9ff")
-			Rectangle:
-				pos: self.pos
-				size: self.size
+		
 		# Top Row Icons
 		GridLayout:
 			rows:1
 			pos_hint: {"top": 1, "left":1}
 			size_hint: 1, .1
 			#Top Icons
-		
-
-
-		# Bottom Row Icons	
-		GridLayout:
-			rows:1
-			pos_hint: {"bottom": 1, "left":1}
-			size_hint: 1, .1
-			#Bottom Icons
-			#Home Button
 			Label:
-			
-			ImageButton:
-				source: 
-					"Images\Icons\HomeIcon.png"
-				on_press:
-					self.source ="Images\Icons\HomeIcon2.png"
-				on_release:
-					self.source = "Images\Icons\HomeIcon.png"
+				markup: True
+				text: '[color=000000]Home[/color]' 
+				font_size: 35
 
-			#Settings Button		
-			ImageButton:
-				source: 
-					"Images\Icons\SettingsGear.png"
-				on_press:
-					self.source ="Images\Icons\SettingsGear2.png"
-				on_release:
-					app.change_screen("settings_screen")
-					self.source ="Images\Icons\SettingsGear.png"
+
+

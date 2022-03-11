@@ -10,6 +10,8 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager,Screen,NoTransition
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.image import Image
+from kivy.core.window import Window
+
 
 #--------------------------------
 class ImageButton(ButtonBehavior, Image):
@@ -22,10 +24,17 @@ class SettingsScreen(Screen):
 	pass
 
 
+#canvas:
+#			Color:
+#				rgb: utils.get_color_from_hex("#d9d2e9ff")
+#			Rectangle:
+#				size: self.size
 
 GUI = Builder.load_file("main.kv")
 class MyApp(App):
 	def build(self):
+		Window.clearcolor = (.8509,.8235,.9137,1)
+
 		return GUI
 
 	def change_screen(self,screen_name):
@@ -36,10 +45,10 @@ class MyApp(App):
 		#from the page(screen) calling the change_screen method
 		#sets the id to match the new id
 		screen_manager = self.root.ids['screen_manager']
-		screen_manager.transition = NoTransition()
-		screen_manager.current = screen_name
-		#
-
+		if (screen_name != screen_manager.current):
+			screen_manager.transition = NoTransition()
+			screen_manager.current = screen_name
+	
 
 #Runs the application
 if __name__ == '__main__':
