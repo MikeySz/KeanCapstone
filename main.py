@@ -14,37 +14,36 @@ from kivy.core.window import Window
 
 
 #--------------------------------
+#Allows for Images to act as Buttons
 class ImageButton(ButtonBehavior, Image):
 	pass
-
+#Home screen
 class HomeScreen(Screen):
 	pass
-
+#Settings Screen
 class SettingsScreen(Screen):
 	pass
 
-
-#canvas:
-#			Color:
-#				rgb: utils.get_color_from_hex("#d9d2e9ff")
-#			Rectangle:
-#				size: self.size
-
+#Color-Background Object to be used later
+colorBG = (.8509,.8235,.9137,1)
+#The Graphics are built within the main.kv and other .kv files
 GUI = Builder.load_file("main.kv")
 class MyApp(App):
 	def build(self):
-		Window.clearcolor = (.8509,.8235,.9137,1)
+		#Sets the color of the window to the colorBG tuple object
+		Window.clearcolor = colorBG
 
 		return GUI
 
+	#Method that changes the screen
 	def change_screen(self,screen_name):
 		# Screen manager from main.kv
 		#print(self.root.ids) #Code used to test the screen_name id
 		
 		#when change_screen is called, it grabs the screen_id
 		#from the page(screen) calling the change_screen method
-		#sets the id to match the new id
 		screen_manager = self.root.ids['screen_manager']
+		#sets the id to match the new id only if current id is not equal to new one
 		if (screen_name != screen_manager.current):
 			screen_manager.transition = NoTransition()
 			screen_manager.current = screen_name

@@ -4,7 +4,8 @@
 
 FloatLayout:
 
-	# ScreenManager
+	# ScreenManager; in charge of selecting the screen
+	# First one in the list is the "default"
 	GridLayout:
 		cols: 1
 		ScreenManager:
@@ -15,6 +16,7 @@ FloatLayout:
 			SettingsScreen:
 				name: "settings_screen"
 				id: settings_screen
+	#Bottom Navigation Bar			
 	GridLayout:
 		rows:1
 		pos_hint: {"bottom": 1, "left":1}
