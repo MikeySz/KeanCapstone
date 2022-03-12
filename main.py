@@ -7,13 +7,14 @@
 #Imports-------------------------
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager,Screen,NoTransition
+from kivy.uix.screenmanager import ScreenManager,Screen,NoTransition,FadeTransition, CardTransition
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.core.window import Window
 
 
 #--------------------------------
+#Class Objects
 #Allows for Images to act as Buttons
 class ImageButton(ButtonBehavior, Image):
 	pass
@@ -23,12 +24,16 @@ class HomeScreen(Screen):
 #Settings Screen
 class SettingsScreen(Screen):
 	pass
-
+#============================================
 #Color-Background Object to be used later
 colorBG = (.8509,.8235,.9137,1)
 #The Graphics are built within the main.kv and other .kv files
 GUI = Builder.load_file("main.kv")
+#Main App
 class MyApp(App):
+	#---------------------------------
+	#Logic Methods
+	#Builds the app
 	def build(self):
 		#Sets the color of the window to the colorBG tuple object
 		Window.clearcolor = colorBG
@@ -45,6 +50,12 @@ class MyApp(App):
 		screen_manager = self.root.ids['screen_manager']
 		#sets the id to match the new id only if current id is not equal to new one
 		if (screen_name != screen_manager.current):
+			#Code to create a case statment for transtions(Slower)
+			##Case Statement to decided what transition to use
+			#if(screen_name == 'settings_screen'):
+			#	screen_manager.transition.direction = "left"
+			#	screen_manager.transition = CardTransition()
+			#else:
 			screen_manager.transition = NoTransition()
 			screen_manager.current = screen_name
 	
