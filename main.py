@@ -6,8 +6,12 @@
 #===========================================
 #Imports-------------------------
 from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty
+
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
+
 
 #--------------------------------
 #Class Objects
@@ -17,6 +21,11 @@ class HomeScreen(MDScreen):
 	pass
 #Settings Screen
 class SettingsScreen(MDScreen):
+	pass
+#Navigation Drawer
+class ProfileNavigationDrawer(BoxLayout):
+	#screen_manager = ObjectProperty()
+	#nav_drawer = ObjectProperty()
 	pass
 
 #============================================
@@ -32,8 +41,7 @@ class MyApp(MDApp):
 		#
 		self.theme_cls.material_style = 'M3'
 		self.theme_cls.primary_palette = "Purple"
-		self.theme_cls.theme_style = "Dark"
-		self.theme_cls.theme_style = "Dark"
+		self.theme_cls.theme_style = "Light"
 		return Builder.load_file("main.kv")
 
 	#Method that changes the screen

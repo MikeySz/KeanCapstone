@@ -2,9 +2,7 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 <HomeScreen>:
 	MDFloatLayout:
-		#NavDrawer Profile
-
-		#Bottom Navigation Bar			
+		#Bottom Navigation Bar		
 		MDBottomNavigation:
 			#panel_color: get_color_from_hex("#e59efaff")
 			#selected_color_background: get_color_from_hex("#e59efaff")
@@ -18,9 +16,7 @@
 				MDLabel:
 					text: 'Home'
 					halign: 'center'
-
-
-
+				
 
 			MDBottomNavigationItem:
 				name: 'screen 2'
@@ -42,6 +38,15 @@
 				MDLabel:
 					text: 'Weather'
 					halign: 'center'
+
+			MDBottomNavigationItem:
+				name: 'screen 4'
+				text: 'Profile'
+				icon: 'account-circle-outline'
+
+
+				
+				
 
 
 			
