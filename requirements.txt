@@ -20,6 +20,7 @@ kivy-deps.sdl2==0.3.1
 Kivy-examples==2.0.0
 Kivy-Garden==0.1.4
 kivy-ios==1.2.1
+kivymd==0.104.2
 MarkupSafe==2.1.0
 openstep-parser==1.5.3
 pbxproj==3.3.1

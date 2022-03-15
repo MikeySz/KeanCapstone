@@ -1,43 +1,51 @@
 #Home Screen Layout
+#:import get_color_from_hex kivy.utils.get_color_from_hex
 <HomeScreen>:
-	FloatLayout:
-		
-		# Top Row Grid with 1 row
-		GridLayout:
-			rows:1
-			pos_hint: {"top": 1, "left":1}
-			size_hint: 1, .1
-			#Top Icons
-			Label:
-				markup: True
-				text: '[color=000000]Home[/color]' 
-				font_size: 35
-#Bottom Navigation Bar			
-		GridLayout:
-			rows:1
-			pos_hint: {"bottom": 1, "left":1}
-			size_hint: 1, .1
-			#Bottom Icons
-			#Home Button
-			Label:
+	MDFloatLayout:
+		#NavDrawer Profile
 
-			ImageButton:
-				source: 
-					"Images\Icons\HomeIcon.png"
-				on_press:
-					self.source ="Images\Icons\HomeIcon2.png"
-				on_release:
-					app.change_screen("home_screen")
-					self.source = "Images\Icons\HomeIcon.png"
+		#Bottom Navigation Bar			
+		MDBottomNavigation:
+			#panel_color: get_color_from_hex("#e59efaff")
+			#selected_color_background: get_color_from_hex("#e59efaff")
+			#text_color_active: 0, 0, 0, 1
 
-			#Settings Button		
-			ImageButton:
-				source: 
-					"Images\Icons\SettingsGear.png"
-				on_press:
-					self.source ="Images\Icons\SettingsGear2.png"
-				on_release:
-					app.change_screen("settings_screen")
-					self.source ="Images\Icons\SettingsGear.png"
+			MDBottomNavigationItem:
+				name: 'screen 1'
+				text: 'Home'
+				icon: 'home'
+
+				MDLabel:
+					text: 'Home'
+					halign: 'center'
+
+
+
+
+			MDBottomNavigationItem:
+				name: 'screen 2'
+				text: 'Video'
+				icon: 'youtube'
+
+
+				MDLabel:
+					text: 'Video'
+					halign: 'center'
+				
+
+
+			MDBottomNavigationItem:
+				name: 'screen 3'
+				text: 'Weather'
+				icon: 'weather-partly-cloudy'
+
+				MDLabel:
+					text: 'Weather'
+					halign: 'center'
+
+
+			
+
+
 
 

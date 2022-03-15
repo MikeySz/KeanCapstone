@@ -2,26 +2,6 @@
 
 <SettingsScreen>:
 	FloatLayout:
-		# Top Row Grid with 1 Row
-		GridLayout:
-			rows: 1
-			pos_hint: {"top": 1, "left":1}
-			size_hint: 1, .05
-
-			#Top Icons
-			ImageButton:
-				source:
-					"Images\Icons\BackIcon.png"
-				on_press:
-					self.source ="Images\Icons\BackIcon2.png"
-				on_release:
-					app.change_screen("home_screen")
-					self.source = "Images\Icons\BackIcon.png"
-			Label:
-				markup: True
-				text: '[color=000000]Settings[/color]' 
-				font_size: 25
-			Label:
 		
 
 
