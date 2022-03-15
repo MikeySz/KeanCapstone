@@ -8,10 +8,15 @@
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
+from kivy.uix.image import Image
+
+
 
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 
+
+from os.path import exists
 
 #--------------------------------
 #Class Objects
@@ -21,11 +26,6 @@ class HomeScreen(MDScreen):
 	pass
 #Settings Screen
 class SettingsScreen(MDScreen):
-	pass
-#Navigation Drawer
-class ProfileNavigationDrawer(BoxLayout):
-	#screen_manager = ObjectProperty()
-	#nav_drawer = ObjectProperty()
 	pass
 
 #============================================
@@ -55,6 +55,23 @@ class MyApp(MDApp):
 		#sets the id to match the new id only if current id is not equal to new one
 		if (screen_name != screen_manager.current):			
 			screen_manager.current = screen_name
+	#Returns the minimum size of an object
+	def getMinSize(self, width, height):
+		if width > height:
+			return height
+		else:
+			return width
+	#Get the user's profile pic if it exists, else use default
+	def getProfilePic(self):
+		if(exists('Data\Profile.png')):
+			print('It Exists')
+			return 'Data\Profile.png'
+		else:
+			print('It does not exists using default')
+			return 'Images\Icons\ProfileDefault.png'
+	#Get the user's name 
+	def getName(self):
+		return "User"
 	
 
 #Runs the application

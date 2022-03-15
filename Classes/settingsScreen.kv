@@ -1,8 +1,19 @@
 # Setting Screen Layout
-
 <SettingsScreen>:
-	FloatLayout:
-		text: "Settings"
+	MDGridLayout:
+		cols: 1
+		rows:3
+		MDToolbar:
+			title:"Settings"
+			icon:"cogs"
+			type: "top"
+			elevation: 10
+			#size_hint: 1, .1
+			left_action_items:[['arrow-left', lambda x: app.change_screen("home_screen")]]
+
+		MDLabel:
+
+		MDLabel:
 
 
 			
