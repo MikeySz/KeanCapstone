@@ -27,6 +27,11 @@ class HomeScreen(MDScreen):
 #Settings Screen
 class SettingsScreen(MDScreen):
 	pass
+#============================================
+#Check/Load Save data here
+
+
+NewUser= True
 
 #============================================
 #Color-Background Object to be used later
@@ -43,6 +48,13 @@ class MyApp(MDApp):
 		self.theme_cls.primary_palette = "Purple"
 		self.theme_cls.theme_style = "Light"
 		return Builder.load_file("main.kv")
+		
+	#Logic that runs before the app starts, can be used to set the intial screen
+	def on_start(self):
+		if (NewUser == True):
+			screen_manager = self.root.ids['screen_manager']
+			screen_manager.current = "settings_screen"
+			
 
 	#Method that changes the screen
 	def change_screen(self,screen_name):
