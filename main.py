@@ -50,10 +50,10 @@ class MyApp(MDApp):
 		return Builder.load_file("main.kv")
 		
 	#Logic that runs before the app starts, can be used to set the intial screen
-	def on_start(self):
-		if (NewUser == True):
-			screen_manager = self.root.ids['screen_manager']
-			screen_manager.current = "settings_screen"
+	#def on_start(self):
+	#	if (NewUser == True):
+	#		screen_manager = self.root.ids['screen_manager']
+	#		screen_manager.current = "settings_screen"
 			
 
 	#Method that changes the screen
