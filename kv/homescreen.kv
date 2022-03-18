@@ -97,9 +97,17 @@
 
 							OneLineAvatarListItem:
 								text: "Enable Dark Mode"
+								ripple_scale: 0
 
 								IconLeftWidget:
 									icon: 'theme-light-dark'
+
+							
+								MDSwitch:
+									pos_hint: {'right': .8 , 'center_y': .5}
+									active: False
+									width: dp(48)
+									on_active: app.toggleDarkMode(self, self.active)
 
 							OneLineAvatarListItem:
 								text: "Terms of Service and Privacy"

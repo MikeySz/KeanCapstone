@@ -18,6 +18,9 @@ from kivymd.uix.screen import MDScreen
 
 from os.path import exists
 
+from kivy.core.window import Window
+Window.size = (400,600)
+
 #--------------------------------
 #Class Objects
 
@@ -54,7 +57,13 @@ class MyApp(MDApp):
 	#	if (NewUser == True):
 	#		screen_manager = self.root.ids['screen_manager']
 	#		screen_manager.current = "settings_screen"
-			
+	
+	#Toggle DarkMode
+	def toggleDarkMode(self, switchObject, switchValue):
+		if(switchValue):
+			self.theme_cls.theme_style = "Dark"	
+		else:
+			self.theme_cls.theme_style = "Light"	
 
 	#Method that changes the screen
 	def change_screen(self,screen_name):
