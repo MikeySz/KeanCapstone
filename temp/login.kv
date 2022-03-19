@@ -36,9 +36,10 @@ FloatLayout:
             pos: self.pos
     Btn:
         id: bup
-        text: 'sign up'
-        font_size: 27
-        pos_hint: {"top":1, "x":.5}
+        text: 'Sign up'
+        font_size: 28
+        size_hint: [.45, .06]
+        pos_hint: {"top":1, "x":.52}
         background_color: [149/255, 99/255, 64/255, 0.5/1]
         color: [1,1,1,1]
         on_press:
@@ -50,9 +51,10 @@ FloatLayout:
             app.anime('up')
     Btn:
         id: bin
-        text: 'sign in'
-        font_size: 27
-        pos_hint: {"top":1, "x":.25}
+        text: 'Face Unlock'
+        font_size: 28
+        size_hint: [.45, .06]
+        pos_hint: {"top":1, "x":.03}
         background_color: [149/255, 99/255, 64/255, 0.5/1]
         color: [1,1,1,1]
         on_press:
@@ -67,40 +69,56 @@ FloatLayout:
         bold: False
         text: ""
         color: [1,0,0,1]
-        pos_hint: {"center_x":.5, "top":.2}
-
-
+        pos_hint: {"center_x":.5, "top":.2}   
     Lbl:
-        text: 'Username:'
+        text: "Welcome to [i]ACMJ[/i]"
+        markup: True
+        bold: True
+        color: [149/255, 99/255, 64/255, 0.5/1]
+        size_hint: [None, None]
+        size: self.texture_size
+        pos_hint: {"center_x":.5, 'top':.75}
+        font_size: '33sp'
+    Lbl:
+        text: "First-Time Startup"
+        markup: True
+        bold: False
+        color: [149/255, 99/255, 64/255, 0.5/1]
+        size_hint: [None, None]
+        size: self.texture_size
+        pos_hint: {"center_x":.5, 'top':.68}
+        font_size: '25sp'
+    Lbl:
+        text: 'Username'
         color: [1,1,1,1]
         font_size: 25
-        pos_hint: {'x':.05, 'top':.82}
+        pos_hint: {'x':.05, 'top':.60}
     Ent:
         id: e1
-        pos_hint: {'center_x':.5, 'top':.79}
+        pos_hint: {'center_x':.5, 'top':.57}
         color: [1,1,1,1]
     Lbl:
-        text: 'Email:'
+        text: 'Email'
         color: [1,1,1,1]
         font_size: 25
-        pos_hint: {'x':.05, 'top':.69}
+        pos_hint: {'x':.05, 'top':.47}
     Ent:
         id: e2
-        pos_hint: {'center_x':.5, 'top':.66}
+        pos_hint: {'center_x':.5, 'top':.44}
         color: [1,1,1,1]
     Lbl:
-        text: 'Password:'
+        text: 'Password'
         color: [1,1,1,1]
         font_size: 25
-        pos_hint: {'x':.05, 'top':.55}
+        pos_hint: {'x':.05, 'top':.34}
     Ent:
         id: e3
-        pos_hint: {'center_x':.5, 'top':.52}
+        pos_hint: {'center_x':.5, 'top':.31}
         color: [1,1,1,1]
         password: True
     Button:
         size_hint: [.4, .06]
-        pos_hint: {"top":.35,'center_x':.5}
+        pos_hint: {"top":.15,'center_x':.5}
         background_color: [149/255, 99/255, 64/255, 0.5/1]
         background_normal: ""
         text: 'register'.upper()
@@ -129,13 +147,13 @@ FloatLayout:
             pos_hint: {"center_x":.5, 'top':.75}
             font_size: '33sp'
         Lbl:
-            text: 'username'
+            text: 'Username'
             pos_hint: {'x':.05, 'top':.64}
         Ent:
             id: the_ur
             pos_hint: {'center_x':.5, 'top':.61}
         Lbl:
-            text: 'password'
+            text: 'Password'
             pos_hint: {'x':.05, 'top':.48}
         Ent:
             id: the_pw
@@ -149,7 +167,7 @@ FloatLayout:
             background_normal: ""
             text: 'login'.upper()
             bold: True
-            font_size: 30
+            font_size: 32
             on_release:
                 app.login(the_ur.text, the_pw.text) if the_ur.text != '' and the_pw.text != "" else app.errorer('l')
 
