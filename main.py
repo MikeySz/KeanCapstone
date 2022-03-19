@@ -21,6 +21,8 @@ from os.path import exists
 from kivy.core.window import Window
 Window.size = (400,600)
 
+from Py import ss
+
 #--------------------------------
 #Class Objects
 
@@ -32,10 +34,8 @@ class SettingsScreen(MDScreen):
 	pass
 #============================================
 #Check/Load Save data here
-
-
 NewUser= True
-
+ss.createDefaults()
 #============================================
 #Color-Background Object to be used later
 #colorBG = (.8509,.8235,.9137,1)
@@ -43,6 +43,8 @@ NewUser= True
 #Main App
 class MyApp(MDApp):
 	#---------------------------------
+	#save system can create default files
+	#ss.createDefaults()
 	#Logic Methods
 	#Builds the app
 	def build(self):
