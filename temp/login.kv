@@ -1,0 +1,205 @@
+#: import utils kivy.utils
+
+FloatLayout:
+    ScreenManager:
+        id: screen_manager
+        RegisterScreen:
+            id: re
+        MainScreen:
+            id: main_sc
+
+<Ent@TextInput>:
+    background_color: [1,1,1,1]
+    size_hint: [.9, .08]
+    font_size: 25
+    color: [1,1,1,1]
+    multiline: False
+<Lbl@Label>:
+    bold: True
+    font_size: 25
+    color: [1,1,1,1]
+    size_hint: [None, None]
+    size: self.texture_size
+<Btn@Button>:
+    background_normal:''
+    background_down: ""
+    size_hint: [.20, .06]
+    font_size: 18
+    bold: True
+
+<Slideup@FloatLayout>:
+    canvas.before:
+        Color:
+            rgba: [238/255,223/255,204/255, 1]
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    Btn:
+        id: bup
+        text: 'sign up'
+        font_size: 27
+        pos_hint: {"top":1, "x":.5}
+        background_color: [149/255, 99/255, 64/255, 0.5/1]
+        color: [1,1,1,1]
+        on_press:
+            self.background_color=[1,1,1,1]
+            self.color=[1,1,1,1]
+        on_release:
+            self.background_color=[149/255, 99/255, 64/255, 0.5/1]
+            self.color=[1,1,1,1]
+            app.anime('up')
+    Btn:
+        id: bin
+        text: 'sign in'
+        font_size: 27
+        pos_hint: {"top":1, "x":.25}
+        background_color: [149/255, 99/255, 64/255, 0.5/1]
+        color: [1,1,1,1]
+        on_press:
+            self.background_color=[1,1,1,1]
+            self.color=[1,1,1,1]
+        on_release:
+            self.background_color=[149/255, 99/255, 64/255, 0.5/1]
+            self.color=[1,1,1,1]
+            app.anime('in')
+    Lbl:
+        id: error
+        bold: False
+        text: ""
+        color: [1,0,0,1]
+        pos_hint: {"center_x":.5, "top":.2}
+
+
+    Lbl:
+        text: 'Username:'
+        color: [1,1,1,1]
+        font_size: 25
+        pos_hint: {'x':.05, 'top':.82}
+    Ent:
+        id: e1
+        pos_hint: {'center_x':.5, 'top':.79}
+        color: [1,1,1,1]
+    Lbl:
+        text: 'Email:'
+        color: [1,1,1,1]
+        font_size: 25
+        pos_hint: {'x':.05, 'top':.69}
+    Ent:
+        id: e2
+        pos_hint: {'center_x':.5, 'top':.66}
+        color: [1,1,1,1]
+    Lbl:
+        text: 'Password:'
+        color: [1,1,1,1]
+        font_size: 25
+        pos_hint: {'x':.05, 'top':.55}
+    Ent:
+        id: e3
+        pos_hint: {'center_x':.5, 'top':.52}
+        color: [1,1,1,1]
+        password: True
+    Button:
+        size_hint: [.4, .06]
+        pos_hint: {"top":.35,'center_x':.5}
+        background_color: [149/255, 99/255, 64/255, 0.5/1]
+        background_normal: ""
+        text: 'register'.upper()
+        bold: False
+        font_size: 30
+        on_release:
+            app.data_receiver(e1.text, e2.text, e3.text) if e1.text != '' and e2.text != '' and e3.text != '' else app.errorer('s')
+
+
+<RegisterScreen>:
+    name: 's1'
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: [238/255,223/255,204/255, 1]
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Welcome to [i]ACMJ[/i]"
+            markup: True
+            bold: True
+            color: [149/255, 99/255, 64/255, 0.5/1]
+            size_hint: [None, None]
+            size: self.texture_size
+            pos_hint: {"center_x":.5, 'top':.75}
+            font_size: '33sp'
+        Lbl:
+            text: 'username'
+            pos_hint: {'x':.05, 'top':.64}
+        Ent:
+            id: the_ur
+            pos_hint: {'center_x':.5, 'top':.61}
+        Lbl:
+            text: 'password'
+            pos_hint: {'x':.05, 'top':.48}
+        Ent:
+            id: the_pw
+            pos_hint: {'center_x':.5, 'top':.45}
+            password: True
+
+        Button:
+            size_hint: [.4, .05]
+            pos_hint: {"top":.30,'center_x':.5}
+            background_color: [149/255, 99/255, 64/255, 0.5/1]
+            background_normal: ""
+            text: 'login'.upper()
+            bold: True
+            font_size: 30
+            on_release:
+                app.login(the_ur.text, the_pw.text) if the_ur.text != '' and the_pw.text != "" else app.errorer('l')
+
+        Lbl:
+            id: error2
+            bold: False
+            text: ""
+            color: [1,0,0,1]
+            pos_hint: {"center_x":.5, "top":.2}
+
+        Slideup:
+            id: slid_up
+            loc: .06
+            pos_hint: {'top': self.loc}
+
+<MainScreen>:
+    name: "s2"
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: [238/255,223/255,204/255, 1]
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Main Screen"
+            markup: True
+            bold: True
+            color: [1,1,1,1]
+            size_hint: [None, None]
+            size: self.texture_size
+            pos_hint: {"center_x":.5, 'top':.85}
+            font_size: '50sp'
+
+        Button:
+            text: 'back'
+            size_hint: .1, .05
+            pos_hint: {'top':.99, 'x':.01}
+            on_release:
+                app.go_back()
+
+        Lbl:
+            id: l1
+            pos_hint: {"x":.05, 'top':.6}
+        Lbl:
+            id: l2
+            pos_hint: {"x":.05, 'top':.55}
+        Lbl:
+            id: l3
+            pos_hint: {"x":.05, 'top':.5}
+        Lbl:
+            id: l4
+            pos_hint: {"x":.05, 'top':.45}
