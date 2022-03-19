@@ -34,8 +34,8 @@ class SettingsScreen(MDScreen):
 	pass
 #============================================
 #Check/Load Save data here
-NewUser= True
-ss.createDefaults()
+#NewUser= True
+#ss.createDefaults()
 #============================================
 #Color-Background Object to be used later
 #colorBG = (.8509,.8235,.9137,1)

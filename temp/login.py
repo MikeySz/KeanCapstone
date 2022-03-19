@@ -38,7 +38,7 @@ class MainApp(App):
     his_date=""
     def build(self):
         Window.size=(360, 640)
-        return Builder.load_file('loginn.kv')
+        return Builder.load_file('login.kv')
 
     def on_start(self):
         self.error=self.root.ids.re.ids.slid_up.ids.error
