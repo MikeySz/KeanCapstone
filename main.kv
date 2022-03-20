@@ -1,6 +1,8 @@
 # Imports
 #:include kv\homescreen.kv
 #:include kv\settingsscreen.kv
+#:include kv\loginscreen.kv
+#:include kv\setupscreen.kv
 
 MDFloatLayout:
 	# ScreenManager; in charge of selecting the screen
@@ -9,10 +11,23 @@ MDFloatLayout:
 		cols: 1
 		ScreenManager:
 			id: screen_manager
+			
+			LoginScreen:
+				name: "login_screen"
+				id: login_screen
+
+			SetupScreen:
+				name: "setup_screen"
+				id: setup_screen
+
 			HomeScreen:
 				name: "home_screen"
 				id: home_screen
+			
 			SettingsScreen:
 				name: "settings_screen"
 				id: settings_screen
+
+
+
 	

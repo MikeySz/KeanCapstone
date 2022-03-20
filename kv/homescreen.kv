@@ -54,7 +54,7 @@
 					rows: 3	
 					MDToolbar:
 						size_hint: 1, .1
-						title:app.getName()+"'s Profile"
+						title:app.name +"'s Profile"
 					MDGridLayout:
 						size_hint: 1,.3
 						rows:1
@@ -109,7 +109,7 @@
 							
 								MDSwitch:
 									pos_hint: {'right': .8 , 'center_y': .5}
-									active: False
+									active: app.getDarkMode()
 									width: dp(48)
 									on_active: app.toggleDarkMode(self, self.active)
 

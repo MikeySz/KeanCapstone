@@ -1,3 +1,79 @@
 # Login Screen Layout
 <LoginScreen>:
-	FloatLayout: 
+	AnchorLayout:
+		anchor_x: 'center'
+		anchor_y: 'center'
+		#orientation:"vertical"
+		#padding:"10dp"
+		#rows: 3
+		#cols: 1
+
+	
+		MDBoxLayout:
+			orientation: 'vertical'
+			#size_hint: .6,.2
+			#cols: 1
+			#rows:5
+
+			#size_hint: 1, 1
+			MDLabel:
+				text:"Welcome to [i]AMCJ[i]!"
+				halign: "center"
+				markup: True
+				bold: True
+				font_style: 'H4'
+				font_name: "Pacifico-Regular.ttf"
+				
+
+			MDTextField:
+				id: usr
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Username"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				max_text_length: 20
+				padding: [6, 6, 6, 6]
+
+			
+			MDTextField:
+				id: pw
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Password"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				password: True
+				password_mask: '*'
+				icon_right: 'eye-off'
+				max_text_length: 10
+
+			MDGridLayout:
+				size_hint: 1 ,.3
+				cols:3
+				rows:1
+				MDLabel:
+				MDRaisedButton:
+					text: "Submit"
+					on_release: app.login(usr.text,pw.text)
+				MDLabel:
+			MDGridLayout:
+				size_hint: 1, .1
+				rows : 1
+				MDIconButton:
+					icon:"face-recognition"
+					theme_icon_color: "Custom"
+					icon_color: app.theme_cls.primary_color
+				MDLabel:
+					text: "Made by AMCJ"
+					halign: 'right'
+					font_style: 'Caption'
+
+
+
+
+
+
+

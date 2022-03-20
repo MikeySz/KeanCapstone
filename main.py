@@ -14,6 +14,7 @@ from kivy.uix.image import Image
 
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.dialog import MDDialog
 
 
 from os.path import exists
@@ -32,6 +33,16 @@ class HomeScreen(MDScreen):
 #Settings Screen
 class SettingsScreen(MDScreen):
 	pass
+
+#Login screen
+class LoginScreen(MDScreen):
+	pass
+class SetupScreen(MDScreen):
+	pass
+
+
+
+
 #============================================
 #Check/Load Save data here
 #NewUser= True
@@ -44,8 +55,27 @@ class SettingsScreen(MDScreen):
 class MyApp(MDApp):
 	#---------------------------------
 	#save system can create default files
-	#ss.createDefaults()
+	ss.createDefault()
+	#Loading data in
+	uDB = ss.load()
+	#Current Logged in user
+	uID = ''
+	#name attribute
+	name = 'User'
+	#darkMode
+	dkMode = False
 	#Logic Methods
+
+	#Logic that runs before the app starts, can be used to set the intial screen
+	def on_start(self):
+
+		if (self.uDB['1']['user']['username'] == "default"):
+			screen_manager = self.root.ids['screen_manager']
+			screen_manager.current = "setup_screen"
+		else:
+			screen_manager = self.root.ids['screen_manager']
+			screen_manager.current = "login_screen"
+
 	#Builds the app
 	def build(self):
 		#
@@ -53,12 +83,6 @@ class MyApp(MDApp):
 		self.theme_cls.primary_palette = "Purple"
 		self.theme_cls.theme_style = "Light"
 		return Builder.load_file("main.kv")
-		
-	#Logic that runs before the app starts, can be used to set the intial screen
-	#def on_start(self):
-	#	if (NewUser == True):
-	#		screen_manager = self.root.ids['screen_manager']
-	#		screen_manager.current = "settings_screen"
 	
 	#Toggle DarkMode
 	def toggleDarkMode(self, switchObject, switchValue):
@@ -92,9 +116,57 @@ class MyApp(MDApp):
 		else:
 			print('It does not exists using default')
 			return 'Images\Icons\ProfileDefault.png'
+	#Login- requires username and password
+	def login(self, usr, pw):
+		i = len(self.uDB)
+		c = 1
+		if(i == 1):
+			uTrue = (self.uDB['1']['user']['username'] == usr)
+			pTrue = (self.uDB['1']['user']['password'] == pw)
+
+			if (uTrue and pTrue):
+				self.uID = '1'
+				self.loadConfig('1')
+				self.change_screen('home_screen')
+	#Loads the defaults into the system
+	def loadConfig(self,uID):
+		self.theme_cls.primary_palette = self.uDB[uID]['config']['theme']
+		self.name = self.uDB[uID]['user']['name']
+
+		if (self.uDB[uID]['config']['darkmode']):
+			self.dkMode = True
+			self.theme_cls.theme_style = "Dark"
+	
+#Code for setting up the intital user
+	def setUpMain(self, name,usr,pw):
+		#Note: Make this into it's own method that validates each part
+		#returns a boolean alongside a string
+		if(name == "" or name == " " or name.casefold() == "default"):
+			self.dialog = MDDialog( text="Invalid name! Please Try Again!", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		if(usr == "" or usr == " " or usr.casefold() == "default"):
+			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
+			self.dialog.open()	
+		elif(len(pw)<6):
+			self.dialog = MDDialog( text="Invalid Password! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		else:
+			self.uDB['1']['user'].update({'name':name})
+			self.uDB['1']['user'].update({'username':usr})
+			self.uDB['1']['user'].update({'password':pw})
+			
+			ss.save(self.uDB)
+			self.loadConfig('1')
+			self.login(usr,pw)
+			
+
+
 	#Get the user's name 
 	def getName(self):
-		return "User"
+		return self.name
+
+	def getDarkMode(self):
+		return self.dkMode
 	
 
 #Runs the application
