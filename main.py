@@ -151,13 +151,13 @@ class MyApp(MDApp):
 		#returns a boolean alongside a string
 		#Error checks that return a dialog box with the first error
 		if(name == "" or name == " " or name.casefold() == "default"):
-			self.dialog = MDDialog( text="Invalid name! Please Try Again!", radius=[20, 7, 20, 7],)
+			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
 		if(usr == "" or usr == " " or usr.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
 			self.dialog.open()	
 		elif(len(pw)<6):
-			self.dialog = MDDialog( text="Invalid Password! ", radius=[20, 7, 20, 7],)
+			self.dialog = MDDialog( text="Invalid Password! Must be atleast 6 characters long ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
 		#if all goes fine, we modify the default user and save the file	
 		else:
