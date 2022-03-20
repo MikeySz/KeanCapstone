@@ -15,6 +15,7 @@ from kivy.uix.image import Image
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.dialog import MDDialog
+from kivymd.utils import asynckivy
 
 
 from os.path import exists
@@ -79,6 +80,7 @@ class MyApp(MDApp):
 	#Builds the app
 	def build(self):
 		#
+		
 		self.theme_cls.material_style = 'M3'
 		self.theme_cls.primary_palette = "Purple"
 		self.theme_cls.theme_style = "Light"
@@ -118,17 +120,23 @@ class MyApp(MDApp):
 			return 'Images\Icons\ProfileDefault.png'
 	#Login- requires username and password
 	def login(self, usr, pw):
+		#Grab the length of the uDB dictionary
 		i = len(self.uDB)
-		c = 1
-		if(i == 1):
+		c = 1  #Counter c starts at 1 (to be used with a loop)
+		if(i == 1): #If there is only one record, then we do one check for each
 			uTrue = (self.uDB['1']['user']['username'] == usr)
 			pTrue = (self.uDB['1']['user']['password'] == pw)
-
+			#is the two booleans are both true we login
 			if (uTrue and pTrue):
-				self.uID = '1'
-				self.loadConfig('1')
-				self.change_screen('home_screen')
-	#Loads the defaults into the system
+				self.uID = '1'  #set the app's userID to '1', used when selecting/editing data
+				self.loadConfig('1') #Load the configuration for '1'
+				self.change_screen('home_screen') #change the screen
+			#Else we display a dialog box with the error.
+			else:
+				self.dialog = MDDialog( text="Invalid username and/or password! Please Try Again!", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+
+	#Loads the defaults/user settings into the system
 	def loadConfig(self,uID):
 		self.theme_cls.primary_palette = self.uDB[uID]['config']['theme']
 		self.name = self.uDB[uID]['user']['name']
@@ -141,6 +149,7 @@ class MyApp(MDApp):
 	def setUpMain(self, name,usr,pw):
 		#Note: Make this into it's own method that validates each part
 		#returns a boolean alongside a string
+		#Error checks that return a dialog box with the first error
 		if(name == "" or name == " " or name.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid name! Please Try Again!", radius=[20, 7, 20, 7],)
 			self.dialog.open()
@@ -150,6 +159,7 @@ class MyApp(MDApp):
 		elif(len(pw)<6):
 			self.dialog = MDDialog( text="Invalid Password! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
+		#if all goes fine, we modify the default user and save the file	
 		else:
 			self.uDB['1']['user'].update({'name':name})
 			self.uDB['1']['user'].update({'username':usr})
@@ -164,6 +174,8 @@ class MyApp(MDApp):
 	#Get the user's name 
 	def getName(self):
 		return self.name
+
+		#return self.name
 
 	def getDarkMode(self):
 		return self.dkMode

@@ -1,22 +1,14 @@
 # Login Screen Layout
 <LoginScreen>:
+	#Anchor Layout to attach everything to center screen
 	AnchorLayout:
 		anchor_x: 'center'
 		anchor_y: 'center'
-		#orientation:"vertical"
-		#padding:"10dp"
-		#rows: 3
-		#cols: 1
-
-	
+		#Box Layout stacks our widgets on top of each other using orientation: 'vertical'
 		MDBoxLayout:
 			orientation: 'vertical'
-			#size_hint: .6,.2
-			#cols: 1
-			#rows:5
-
-			#size_hint: 1, 1
-			MDLabel:
+			
+			MDLabel:   #The Heading to our application
 				text:"Welcome to [i]AMCJ[i]!"
 				halign: "center"
 				markup: True
@@ -25,7 +17,7 @@
 				font_name: "Pacifico-Regular.ttf"
 				
 
-			MDTextField:
+			MDTextField:  #Username Text Field; Max Length 20; 
 				id: usr
 				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 				size_hint_x:None
@@ -37,7 +29,7 @@
 				padding: [6, 6, 6, 6]
 
 			
-			MDTextField:
+			MDTextField:  #Password Text Field; Max Length 10; Mask on
 				id: pw
 				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 				size_hint_x:None
@@ -50,6 +42,7 @@
 				icon_right: 'eye-off'
 				max_text_length: 10
 
+			#GridLayout holds our button between two empty labels
 			MDGridLayout:
 				size_hint: 1 ,.3
 				cols:3
@@ -59,8 +52,9 @@
 					text: "Submit"
 					on_release: app.login(usr.text,pw.text)
 				MDLabel:
+			#GridLayout: Bottom Icon Switch and devlopment team name caption
 			MDGridLayout:
-				size_hint: 1, .1
+				size_hint: .95, .125
 				rows : 1
 				MDIconButton:
 					icon:"face-recognition"
