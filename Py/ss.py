@@ -59,6 +59,3 @@ def save(uDB):
 	with open(r'Data\userDB.json', 'w+') as filehandle:
 		json.dump(uDB, filehandle)
 	print("Save Success")
-
-def addUser():
-	pass
