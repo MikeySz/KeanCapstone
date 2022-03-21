@@ -3,6 +3,7 @@
 #Kean Senior Captstone
 #All Logic should be here
 #.KV files should hold the interface/gui
+#Note: Look into Sphinx 
 #===========================================
 #Imports-------------------------
 from kivy.lang import Builder

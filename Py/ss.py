@@ -8,6 +8,8 @@ import os.path
 from os import path
 from os.path import exists 
 #==================================================
+#dynamic path: look into this later
+
 #DefaultDictionaryTemplate
 def __defaultDT(uNum):
 
@@ -28,8 +30,7 @@ def __defaultDT(uNum):
 				"theme":"Purple",} #The color of theme for the user
 			}
 		} #End of default file with only 1 user	
-
-
+#-------------------------------------------------------------------------------------
 #Create the default config file
 def createDefault():
 	#Checks if a file exists; Mostly to avoid overwriting a previous save
@@ -44,18 +45,17 @@ def createDefault():
 		#populates the file the default   
 		with open(r'Data\userDB.json', 'w+') as filehandle:
 			json.dump(uDB, filehandle)
-
-
-
+#--------------------------------------------------------------------------------------
 #Loads the userDB file into the the app when called
 def load():
 	with open(r'Data\userDB.json') as f:
 		uDB = json.load(f)
 		return uDB
-
+#---------------------------------------------------------------------------------------
 #saves the Local app userDB dictionary into the main save file
 def save(uDB):
 	print(uDB)
 	with open(r'Data\userDB.json', 'w+') as filehandle:
 		json.dump(uDB, filehandle)
 	print("Save Success")
+#---------------------------------------------------------------------------------------
