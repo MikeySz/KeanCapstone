@@ -10,7 +10,7 @@
 			orientation: 'vertical'
 
 			MDLabel: #Heading to the first-time setup screen
-				text:"Welcome to [i]Solaire[i]!  First Time Setup"
+				text:"Welcome to [i]Solaire[i]!       First Time Setup"
 				halign: "center"
 				markup: True
 				bold: True
@@ -45,6 +45,17 @@
 				helper_text:"Required"
 				helper_text_mode: "on_focus"
 				max_text_length: 20
+				padding: [6, 6, 6, 6]
+
+			MDTextField: #username Text Field; Max Length 20; used for login
+				id: email
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Email"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				max_text_length: 25
 				padding: [6, 6, 6, 6]
 
 			

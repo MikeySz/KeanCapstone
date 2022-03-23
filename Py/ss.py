@@ -22,12 +22,13 @@ def __defaultDT(uNum):
 		{"user":   #Main APP: uDB[1]['user'] =========================
 				{"username":"default", #Username used for loggin in
 				"password":"default",  #Password used alongside username to log a user in
-				"name": ""},  #Name used to address the user within the app
+				"name": "",   #Name used to address the user within the app
+				"email":""},  #User's email
 
 		#Config is the system configurtion settings for the specifc user
 		"config":  #Main APP: uDB[1]['config']==============================
 				{"darkmode":False, #Decides what mode the app is in"Light/Dark"
-				"theme":"Purple",} #The color of theme for the user
+				"theme":"Orange",} #The color of theme for the user
 			}
 		} #End of default file with only 1 user	
 #-------------------------------------------------------------------------------------

@@ -85,7 +85,7 @@ class MyApp(MDApp):
 		#
 		
 		self.theme_cls.material_style = 'M3'
-		self.theme_cls.primary_palette = "Purple"
+		self.theme_cls.primary_palette = "Orange"
 		self.theme_cls.theme_style = "Light"
 		return Builder.load_file("main.kv")
 	
@@ -167,6 +167,7 @@ class MyApp(MDApp):
 			self.uDB['1']['user'].update({'name':name})
 			self.uDB['1']['user'].update({'username':usr})
 			self.uDB['1']['user'].update({'password':pw})
+			self.uDB['1']['user'].update({'email':email})
 			
 			ss.save(self.uDB)
 			self.loadConfig('1')
