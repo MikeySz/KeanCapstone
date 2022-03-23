@@ -71,9 +71,11 @@ class MyApp(MDApp):
 	#Logic that runs before the app starts, can be used to set the intial screen
 	def on_start(self):
 
+		#If default user exists then load setup screen
 		if (self.uDB['1']['user']['username'] == "default"):
 			screen_manager = self.root.ids['screen_manager']
 			screen_manager.current = "setup_screen"
+		#Else we load into a login_screen
 		else:
 			screen_manager = self.root.ids['screen_manager']
 			screen_manager.current = "login_screen"

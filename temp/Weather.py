@@ -142,7 +142,6 @@ class WeatherSection(MDApp):
 
     def build(self):
         return Builder.load_string(kv)
-
     def get_weather(self, city_name):
         try:
             url = f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={self.api_key}"
@@ -184,6 +183,6 @@ class WeatherSection(MDApp):
 
 
 if __name__ == '__main__':
-    LabelBase.register(name="Lato", fn_regular="assets\\fonts\\lato.ttf")
+    LabelBase.register(name="Lato", fn_regular="lato.ttf")#assets\\fonts\\lato.ttf")
 
     WeatherSection().run()
