@@ -143,13 +143,21 @@ class MyApp(MDApp):
 	def loadConfig(self,uID):
 		self.theme_cls.primary_palette = self.uDB[uID]['config']['theme']
 		self.name = self.uDB[uID]['user']['name']
+		#Test Code
+		#print(self.name)
+		#self.root.ids['sUname'].title = self.getName()+"'s Profile"
+		#print(self.root.ids.home_screen.ids['sUname'])
+		#print(self.getName() +"'s Profile")
+		#Sets the name
+		self.root.ids.home_screen.ids['sUname'].title = self.getName() +"'s Profile"
 
 		if (self.uDB[uID]['config']['darkmode']):
 			self.dkMode = True
 			self.theme_cls.theme_style = "Dark"
-	
+			self.root.ids.home_screen.ids['darkmodeswitch'].active = self.dkMode
+
 #Code for setting up the intital user
-	def setUpMain(self, name,usr,pw):
+	def setUpMain(self, name,usr,pw,email):
 		#Note: Make this into it's own method that validates each part
 		#returns a boolean alongside a string
 		#Error checks that return a dialog box with the first error
@@ -173,6 +181,7 @@ class MyApp(MDApp):
 			self.loadConfig('1')
 			self.login(usr,pw)
 			
+			#print('1' in self.uDB) #We can use this to check if a key exists
 
 
 	#Get the user's name 
