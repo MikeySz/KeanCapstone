@@ -26,6 +26,12 @@ Window.size = (400,600)
 
 from Py import ss
 
+#----
+import requests
+from bs4 import BeautifulSoup
+from kivy.core.text import LabelBase
+from kivy.core.window import Window
+
 #--------------------------------
 #Class Objects
 
@@ -55,6 +61,9 @@ class SetupScreen(MDScreen):
 #The Graphics are built within the main.kv and other .kv files
 #Main App
 class MyApp(MDApp):
+
+	#Api Key for the Weather
+	api_key = "08969b47088a3aec7aed9f2547c9083e"
 	#---------------------------------
 	#save system can create default files
 	ss.createDefault()
@@ -80,6 +89,21 @@ class MyApp(MDApp):
 			screen_manager = self.root.ids['screen_manager']
 			screen_manager.current = "login_screen"
 
+		#--------------------------------------------------------------------
+		#Weather Startup grab location from the devices:
+		try:
+			soup = BeautifulSoup(requests.get(f"https://www.google.com/search?q=weather+at+my+current+location").text,"html.parser")
+			temp = soup.find("span", class_="BNeawe tAd8D AP7Wnd")
+			location = ''.join(filter(lambda item: not item.isdigit(), temp.text)).split(",", 1)
+			self.get_weather(location[0])
+		except requests.ConnectionError:
+			print("Unable to connect")
+			exit()
+
+
+
+		#---------------------------------------------------------------------
+
 	#Builds the app
 	def build(self):
 		#
@@ -89,12 +113,7 @@ class MyApp(MDApp):
 		self.theme_cls.theme_style = "Light"
 		return Builder.load_file("main.kv")
 	
-	#Toggle DarkMode
-	def toggleDarkMode(self, switchObject, switchValue):
-		if(switchValue):
-			self.theme_cls.theme_style = "Dark"	
-		else:
-			self.theme_cls.theme_style = "Light"	
+
 
 	#Method that changes the screen
 	def change_screen(self,screen_name):
@@ -132,12 +151,31 @@ class MyApp(MDApp):
 			#is the two booleans are both true we login
 			if (uTrue and pTrue):
 				self.uID = '1'  #set the app's userID to '1', used when selecting/editing data
-				self.loadConfig('1') #Load the configuration for '1'
+				self.loadConfig(self.uID) #Load the configuration for '1'
 				self.change_screen('home_screen') #change the screen
 			#Else we display a dialog box with the error.
 			else:
 				self.dialog = MDDialog( text="Invalid username and/or password! Please Try Again!", radius=[20, 7, 20, 7],)
 				self.dialog.open()
+		elif(i > 1):#We have mutliple records
+			uTrue = False
+			pTrue = False
+			while(c < i):
+				#Check each record
+				uTrue = (self.uDB[c]['user']['username'] == usr)
+				pTrue = (self.uDB[c]['user']['password'] == pw)
+				if(uTrue and pTrue):
+					self.uID = str(c)
+					self.loadConfig(self.uID)
+					self.change_screen('home_screen')
+					break
+			if(not uTrue or not pTrue):
+				self.dialog = MDDialog( text="Invalid username and/or password! Please Try Again!", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+
+
+
+
 
 	#Loads the defaults/user settings into the system
 	def loadConfig(self,uID):
@@ -182,6 +220,56 @@ class MyApp(MDApp):
 			self.login(usr,pw)
 			
 			#print('1' in self.uDB) #We can use this to check if a key exists
+#Code for adding a new account
+	def addAccount(self, name,usr,pw,email):
+		#Note: Make this into it's own method that validates each part
+		#returns a boolean alongside a string
+		#Error checks that return a dialog box with the first error
+		if(name == "" or name == " " or name.casefold() == "default"):
+			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		if(usr == "" or usr == " " or usr.casefold() == "default"):
+			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
+			self.dialog.open()	
+		elif(len(pw)<6):
+			self.dialog = MDDialog( text="Invalid Password! Must be atleast 6 characters long ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		#if all goes fine, we modify the default user and save the file	
+		else:
+			i = 2;
+			while i in  int(self.uDB.keys()):
+				i = i + 1
+
+		#creating a temporary dictionary to add to the main one	
+			tempDB = ss.__defaultDT(i)
+			tempDB[i]['user'].update({'name':name})
+			tempDB[i]['user'].update({'username':usr})
+			tempDB[i]['user'].update({'password':pw})
+			tempDB[i]['user'].update({'email':email})
+
+			self.uDB.update(tempDB)
+			
+			ss.save(self.uDB)
+			self.loadConfig(i)
+			self.login(usr,pw)
+			
+			#print('1' in self.uDB) #We can use this to check if a key exists
+		#Toggle DarkMode; adds value to uDB and saves to the .json file
+#---------------------------Visual----------------------------------------------------------
+	def pwMaskToggle(self):
+		print(success)
+
+	def toggleDarkMode(self, switchObject, switchValue):
+		if(switchValue):
+			self.theme_cls.theme_style = "Dark"	
+			self.uDB[self.uID]['config']['darkmode'] = switchValue
+			#print(self.uDB)
+			ss.save(self.uDB)
+		else:
+			self.theme_cls.theme_style = "Light"
+			self.uDB[self.uID]['config']['darkmode'] = switchValue	
+			#print(self.uDB)
+			ss.save(self.uDB)
 
 
 	#Get the user's name 
@@ -192,7 +280,51 @@ class MyApp(MDApp):
 
 	def getDarkMode(self):
 		return self.dkMode
-	
+
+	#---------------------------------Weather Related Functions--------------------------------
+	def get_weather(self, city_name):
+		try:
+			url = f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={self.api_key}"
+			response = requests.get(url)
+			x = response.json()
+			if x["cod"] != "404":  # Gets weather values
+				temperature = round((x["main"]["temp"] - 273.15) * (9 / 5) + 32)
+				humidity = x["main"]["humidity"]
+				weather = x["weather"][0]['main']
+				id = str(x["weather"][0]["id"])
+				wind_speed = round(x["wind"]["speed"] * 18 / 5)
+				location = x["name"] + ", " + x["sys"]["country"]
+				#self.root.ids.home_screen.ids['city_name'].text
+
+				self.root.ids.home_screen.ids['temperature'].text = f"[b]{temperature}[/b]"
+				self.root.ids.home_screen.ids['weather'].text = str(weather)
+				self.root.ids.home_screen.ids['humidity'].text = "Humidity:        "+f"{humidity}%"
+				#self.root.ids.home_screen.ids['wind_speed'].text = f"{wind_speed} km/h"
+				self.root.ids.home_screen.ids['location'].text = location
+				# if id == "800":  # Matches weather with corresponding icons
+				#     self.root.ids.weather_image.source = "assets/loc.png"
+				# elif "200" <= id <= "232":
+				#     self.root.ids.weather_image.source = "assets/loc.png"
+				# elif "300" <= id <= "321" and "500" <= id <= "531":
+				#     self.root.ids.weather_image.source = "assets/loc.png"
+				# elif "200" <= id <= "232":
+				#     self.root.ids.weather_image.source = "assets/loc.png"
+				# elif "200" <= id <= "232":
+				#     self.root.ids.weather_image.source = "assets/loc.png"
+				# elif "200" <= id <= "232":
+				#     self.root.ids.weather_image.source = "assets/loc.png"
+			else:
+				print("City Unknown")
+		except requests.ConnectionError:
+			print("Unable to connect")
+
+	def search_weather(self):
+		city_name = self.root.ids.home_screen.ids['city_name'].text
+		if city_name != "":
+			self.get_weather(city_name)
+
+
+	#-----------------------------------------------------------------------------------------
 
 #Runs the application
 if __name__ == '__main__':

@@ -1,0 +1,95 @@
+#Signup Screen Layout
+#when user clicks on add user icon then this screen should appear
+<SetupScreen>:
+	#Anchor Layout to attach everything to center screen
+	AnchorLayout:
+		anchor_x: 'center'
+		anchor_y: 'center'
+		#Box Layout stacks our widgets on top of each other using orientation: 'vertical'
+		MDBoxLayout:
+			orientation: 'vertical'
+
+			MDLabel: #Heading to the first-time setup screen
+				text:"Welcome to [i]Solaire[i]!      Sign-Up!"
+				halign: "center"
+				markup: True
+				bold: True
+				font_style: 'H4'
+				font_name: "Pacifico-Regular.ttf"
+			# MDLabel:
+			# 	text:"First time setup"
+			# 	halign: "center"
+			# 	markup: True
+			# 	bold: True
+			# 	font_style: 'Subtitle1'
+			# 	font_name: "Pacifico-Regular.ttf"
+				
+
+			MDTextField: #name Text Field; Max Length 20; 
+				id: name
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Display Name"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				max_text_length: 20
+				padding: [6, 6, 6, 6]
+
+			MDTextField: #username Text Field; Max Length 20; used for login
+				id: usr
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Username"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				max_text_length: 20
+				padding: [6, 6, 6, 6]
+
+			MDTextField: #username Text Field; Max Length 20; used for login
+				id: email
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Email"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				max_text_length: 25
+				padding: [6, 6, 6, 6]
+
+			
+			MDTextField: #Password Text Field; Max Length 10; Mask on
+				id: pw
+				pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+				size_hint_x:None
+				width: 200
+				hint_text: "Password"
+				helper_text:"Required"
+				helper_text_mode: "on_focus"
+				password: True
+				password_mask: '*'
+				icon_right: 'eye-off'
+				max_text_length: 10
+
+			MDGridLayout:  #Grid holds submit button between two empty labels
+				size_hint: 1 ,.3
+				cols:3
+				rows:1
+				MDLabel:
+				MDRaisedButton:
+					text: "Submit"
+					on_release: app.setUpMain(name.text, usr.text, pw.text, email.text)
+				MDLabel:
+
+			MDGridLayout: #bottom bar shows caption
+				size_hint: .9, .1
+				rows : 1
+				# MDIconButton:
+				# 	icon:"pencil-circle"
+				# 	theme_icon_color: "Custom"
+				# 	icon_color: app.theme_cls.primary_color
+				MDLabel:
+					text: "Made by AMCJ"
+					halign: 'right'
+					font_style: 'Caption'
