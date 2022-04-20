@@ -1,6 +1,6 @@
 #Signup Screen Layout
 #when user clicks on add user icon then this screen should appear
-<SetupScreen>:
+<SignupScreen>:
 	#Anchor Layout to attach everything to center screen
 	AnchorLayout:
 		anchor_x: 'center'
@@ -79,16 +79,22 @@
 				MDLabel:
 				MDRaisedButton:
 					text: "Submit"
-					on_release: app.setUpMain(name.text, usr.text, pw.text, email.text)
+					on_release: app.addAccount(name.text, usr.text, pw.text, email.text)
 				MDLabel:
 
-			MDGridLayout: #bottom bar shows caption
-				size_hint: .9, .1
+			#GridLayout: Bottom Icon Switch and devlopment team name caption
+			MDGridLayout:
+				size_hint: .95, .125
 				rows : 1
-				# MDIconButton:
-				# 	icon:"pencil-circle"
-				# 	theme_icon_color: "Custom"
-				# 	icon_color: app.theme_cls.primary_color
+				MDIconButton:
+					icon:"face-recognition"
+					theme_icon_color: "Custom"
+					icon_color: app.theme_cls.primary_color
+				MDIconButton:
+					icon:"login"
+					theme_icon_color: "Custom"
+					icon_color: app.theme_cls.primary_color
+					on_release: app.change_screen("login_screen")
 				MDLabel:
 					text: "Made by AMCJ"
 					halign: 'right'

@@ -20,6 +20,7 @@ from kivymd.utils import asynckivy
 
 
 from os.path import exists
+import time
 
 from kivy.core.window import Window
 Window.size = (400,600)
@@ -46,6 +47,8 @@ class SettingsScreen(MDScreen):
 class LoginScreen(MDScreen):
 	pass
 class SetupScreen(MDScreen):
+	pass
+class SignupScreen(MDScreen):
 	pass
 
 
@@ -76,6 +79,8 @@ class MyApp(MDApp):
 	#darkMode
 	dkMode = False
 	#Logic Methods
+	#profile picture path
+	proPic = ''
 
 	#Logic that runs before the app starts, can be used to set the intial screen
 	def on_start(self):
@@ -134,9 +139,10 @@ class MyApp(MDApp):
 			return width
 	#Get the user's profile pic if it exists, else use default
 	def getProfilePic(self):
-		if(exists('Data\Profile.png')):
+		if(exists(self.proPic)):
 			print('It Exists')
-			return 'Data\Profile.png'
+			return self.proPic
+			
 		else:
 			print('It does not exists using default')
 			return 'Images\Icons\ProfileDefault.png'
@@ -160,15 +166,16 @@ class MyApp(MDApp):
 		elif(i > 1):#We have mutliple records
 			uTrue = False
 			pTrue = False
-			while(c < i):
+			while(c <= i):
 				#Check each record
-				uTrue = (self.uDB[c]['user']['username'] == usr)
-				pTrue = (self.uDB[c]['user']['password'] == pw)
+				uTrue = (self.uDB[str(c)]['user']['username'] == usr)
+				pTrue = (self.uDB[str(c)]['user']['password'] == pw)
 				if(uTrue and pTrue):
 					self.uID = str(c)
 					self.loadConfig(self.uID)
 					self.change_screen('home_screen')
 					break
+				c = c+1
 			if(not uTrue or not pTrue):
 				self.dialog = MDDialog( text="Invalid username and/or password! Please Try Again!", radius=[20, 7, 20, 7],)
 				self.dialog.open()
@@ -188,6 +195,9 @@ class MyApp(MDApp):
 		#print(self.getName() +"'s Profile")
 		#Sets the name
 		self.root.ids.home_screen.ids['sUname'].title = self.getName() +"'s Profile"
+
+		self.proPic = self.uDB[uID]['user']['profilepic']
+		self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = self.getProfilePic()
 
 		if (self.uDB[uID]['config']['darkmode']):
 			self.dkMode = True
@@ -237,11 +247,11 @@ class MyApp(MDApp):
 		#if all goes fine, we modify the default user and save the file	
 		else:
 			i = 2;
-			while i in  int(self.uDB.keys()):
+			while str(i) in  self.uDB.keys():
 				i = i + 1
 
 		#creating a temporary dictionary to add to the main one	
-			tempDB = ss.__defaultDT(i)
+			tempDB = ss.defaultDT(i)
 			tempDB[i]['user'].update({'name':name})
 			tempDB[i]['user'].update({'username':usr})
 			tempDB[i]['user'].update({'password':pw})
@@ -250,7 +260,12 @@ class MyApp(MDApp):
 			self.uDB.update(tempDB)
 			
 			ss.save(self.uDB)
-			self.loadConfig(i)
+			self.uDB = ss.load()
+			print(self.uDB)
+
+
+
+			self.loadConfig(str(i))
 			self.login(usr,pw)
 			
 			#print('1' in self.uDB) #We can use this to check if a key exists

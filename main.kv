@@ -3,6 +3,7 @@
 #:include kv\settingsscreen.kv
 #:include kv\loginscreen.kv
 #:include kv\setupscreen.kv
+#:include kv\signupscreen.kv
 
 MDFloatLayout:
 	# ScreenManager; in charge of selecting the screen
@@ -19,6 +20,10 @@ MDFloatLayout:
 			SetupScreen:
 				name: "setup_screen"
 				id: setup_screen
+
+			SignupScreen:
+				name: "signup_screen"
+				id: signup_screen
 
 			HomeScreen:
 				name: "home_screen"

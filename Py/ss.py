@@ -11,7 +11,7 @@ from os.path import exists
 #dynamic path: look into this later
 
 #DefaultDictionaryTemplate
-def __defaultDT(uNum):
+def defaultDT(uNum):
 
 	return {
 	#The Numbers are User IDs, it will make adding new users easier.
@@ -23,7 +23,8 @@ def __defaultDT(uNum):
 				{"username":"default", #Username used for loggin in
 				"password":"default",  #Password used alongside username to log a user in
 				"name": "",   #Name used to address the user within the app
-				"email":""},  #User's email
+				"email":"",   #User's email
+				"profilepic":" "},  
 
 		#Config is the system configurtion settings for the specifc user
 		"config":  #Main APP: uDB[1]['config']==============================
@@ -38,7 +39,7 @@ def createDefault():
 	#IF not, then we create the file
 	if (not exists(r'Data\userDB.json')):
 		#uDB is a multilayered dictionary structure
-		uDB = __defaultDT(1)
+		uDB = defaultDT(1)
 		
 		
 		#Opens/creates the file

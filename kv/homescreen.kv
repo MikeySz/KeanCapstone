@@ -218,14 +218,17 @@
 							#width: 50
 
 						Widget:
+							id: pic
 							size_hint_x: None
 							size_hint_y: None
 							size: app.getMinSize(self.parent.width, self.parent.height), app.getMinSize(self.parent.width, self.parent.height)
 							#size_hint: .6,1
 							canvas:
+								#id: canvaspic
 								Color:
 									rgb: 1, 1, 1
 								Ellipse:
+									group: 'a'
 									size: self.height, self.height#app.getMinSize(self.width, self.height), app.getMinSize(self.width, self.height)
 									pos: self.pos
 									source:app.getProfilePic()
