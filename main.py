@@ -17,6 +17,7 @@ from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.dialog import MDDialog
 from kivymd.utils import asynckivy
+from kivymd.uix.menu import MDDropdownMenu
 
 
 from os.path import exists
@@ -111,8 +112,8 @@ class MyApp(MDApp):
 
 	#Builds the app
 	def build(self):
-		#
 		
+		#Set the COLOR and THEME of the app
 		self.theme_cls.material_style = 'M3'
 		self.theme_cls.primary_palette = "Orange"
 		self.theme_cls.theme_style = "Light"
@@ -188,6 +189,8 @@ class MyApp(MDApp):
 	def loadConfig(self,uID):
 		self.theme_cls.primary_palette = self.uDB[uID]['config']['theme']
 		self.name = self.uDB[uID]['user']['name']
+		#self.root.ids.home_screen.text_color_active = self.uDB[uID]['config']['theme']
+
 		#Test Code
 		#print(self.name)
 		#self.root.ids['sUname'].title = self.getName()+"'s Profile"
@@ -286,7 +289,7 @@ class MyApp(MDApp):
 			#print(self.uDB)
 			ss.save(self.uDB)
 
-
+#-------------------Gets------------------------------------------------------------------------
 	#Get the user's name 
 	def getName(self):
 		return self.name
@@ -295,6 +298,15 @@ class MyApp(MDApp):
 
 	def getDarkMode(self):
 		return self.dkMode
+
+	def getPalette(self):
+		return self.theme_cls.primary_palette
+
+	def setPalette(self, color):
+		print(color)
+		self.theme_cls.primary_palette = color
+		self.uDB[self.uID]['config']['theme'] = color
+		ss.save(self.uDB)
 
 	#---------------------------------Weather Related Functions--------------------------------
 	def get_weather(self, city_name):
