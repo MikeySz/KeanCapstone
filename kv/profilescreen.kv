@@ -33,19 +33,98 @@
 
 					
 				OneLineAvatarListItem:
-					text: "Change Display Name"
+					#text: "Change Display Name"
 					ripple_scale: 0
 
 					IconLeftWidget:
 						icon: 'rename-box'
 
+					MDTextField:  #Username Text Field; Max Length 20; 
+						id: name_e
+						pos_hint: {'right': .65, 'center_y': 0.5}
+						size_hint_x:None
+						width: 200
+						hint_text: app.getName()
+						helper_text:"Change Display Name"
+						helper_text_mode: "persistent"
+						max_text_length: 20
+						padding: [6, 6, 6, 6]
+					MDIconButton:
+						icon: "upload"
+						pos_hint: {'right': .95, 'center_y': 0.5}
+						on_release: app.changeName(name_e.text)
+
+
+
 				OneLineAvatarListItem:
-					text: "Change Email"
+					#text: "Change Email"
 					ripple_scale: 0
 
 					IconLeftWidget:
 						icon: 'email'
 
-								
+					MDTextField:  #Email Text Field; Max Length 25; 
+						id: email_e
+						pos_hint: {'right': .65, 'center_y': 0.5}
+						size_hint_x:None
+						width: 200
+						hint_text: app.getEmail()
+						helper_text:"Change Email"
+						helper_text_mode: "persistent"
+						max_text_length: 25
+						padding: [6, 6, 6, 6]
+					MDIconButton:
+						icon: "upload"
+						pos_hint: {'right': .95, 'center_y': 0.5}
+						on_release: app.changeEmail(email_e.text)
 
-		MDLabel:
+
+
+
+
+				OneLineAvatarListItem:
+					#text: "Change Password"
+					ripple_scale: 0
+
+					IconLeftWidget:
+						icon: 'lock'
+
+					MDTextField:  #Email Text Field; Max Length 25; 
+						id: pass_e
+						pos_hint: {'right': .65, 'center_y': 0.5}
+						size_hint_x:None
+						width: 200
+						hint_text: "Password"
+						helper_text:"Change Password"
+						helper_text_mode: "persistent"
+						password: True
+						password_mask: '*'
+						max_text_length: 10
+						padding: [6, 6, 6, 6]
+
+					MDIconButton:
+						icon: "upload"
+						pos_hint: {'right': .95, 'center_y': 0.5}
+						on_release: app.changePW(pass_e.text)
+
+
+				# OneLineAvatarListItem:
+				# 	#text: "password"
+				# 	ripple_scale: 0
+
+				# 	IconLeftWidget:
+				# 		icon: 'lock'
+
+				# 	MDTextField:  #Password Text Field; Max Length 10; 
+				# 		id: password_e
+				# 		pos_hint: {'right': .65, 'center_y': 0.5}
+				# 		size_hint_x:None
+				# 		width: 200
+				# 		hint_text: " "
+				# 		helper_text:"Change Password"
+				# 		helper_text_mode: "persistent"
+				# 		password: True
+				# 		password_mask: '*'
+				# 		max_text_length: 10
+				# 		padding: [6, 6, 6, 6]
+		#MDLabel:

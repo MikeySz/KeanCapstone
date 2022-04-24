@@ -47,6 +47,8 @@ from bs4 import BeautifulSoup
 from kivy.core.text import LabelBase
 from kivy.core.window import Window
 
+import re
+
 #--------------------------------
 #Class Objects
 
@@ -95,8 +97,17 @@ class MyApp(MDApp):
 	uID = ''
 	#name attribute
 	name = 'User'
+	#Email
+	email = " "
 	#darkMode
 	dkMode = False
+	#cPW
+	cPW = False
+
+	#Setup Email Format
+	emailFormat = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+      
+
 	#Logic Methods
 	#profile picture path
 	proPic = ''
@@ -175,8 +186,10 @@ class MyApp(MDApp):
 		#when change_screen is called, it grabs the screen_id
 		#from the page(screen) calling the change_screen method
 		screen_manager = self.root.ids['screen_manager']
-		#sets the id to match the new id only if current id is not equal to new one
-		if (screen_name != screen_manager.current):			
+		#sets the id to match the new id only if current id is not equal to new on
+		if (screen_name != screen_manager.current):	
+			if(screen_name == 'login_screen'):
+				self.root.ids.home_screen.ids.bottomNav.switch_tab('screen 1')		
 			screen_manager.current = screen_name
 	#Returns the minimum size of an object
 	def getMinSize(self, width, height):
@@ -198,6 +211,14 @@ class MyApp(MDApp):
 				self.uID = '1'  #set the app's userID to '1', used when selecting/editing data
 				self.loadConfig(self.uID) #Load the configuration for '1'
 				self.change_screen('home_screen') #change the screen
+				#reset the login screen
+				self.root.ids.login_screen.ids['usr'].text = ""
+				self.root.ids.login_screen.ids['pw'].text = ""
+				#reset the signup screen
+				self.root.ids.signup_screen.ids['name'].text = ""
+				self.root.ids.signup_screen.ids['usr'].text = ""
+				self.root.ids.signup_screen.ids['email'].text = ""
+				self.root.ids.signup_screen.ids['pw'].text = ""
 			#Else we display a dialog box with the error.
 			else:
 				self.dialog = MDDialog( text="Invalid username and/or password! Please Try Again!", radius=[20, 7, 20, 7],)
@@ -227,14 +248,16 @@ class MyApp(MDApp):
 	def loadConfig(self,uID):
 		self.theme_cls.primary_palette = self.uDB[uID]['config']['theme']
 		self.name = self.uDB[uID]['user']['name']
-		#self.root.ids.home_screen.text_color_active = self.uDB[uID]['config']['theme']
+		self.email = self.uDB[uID]['user']['email']
+		
+	
+		#--------Edit profile screen------------------------------------------------------
+		self.root.ids.profile_screen.ids['name_e'].hint_text = self.getName()
+		self.root.ids.profile_screen.ids['email_e'].hint_text = self.getEmail()
+		
 
-		#Test Code
-		#print(self.name)
-		#self.root.ids['sUname'].title = self.getName()+"'s Profile"
-		#print(self.root.ids.home_screen.ids['sUname'])
-		#print(self.getName() +"'s Profile")
-		#Sets the name
+
+		#------Settings profile display------------------------
 		self.root.ids.home_screen.ids['sUname'].title = self.getName() +"'s Profile"
 
 		self.proPic = self.uDB[uID]['user']['profilepic']
@@ -246,6 +269,21 @@ class MyApp(MDApp):
 			self.theme_cls.theme_style = "Dark"
 			self.root.ids.home_screen.ids['darkmodeswitch'].active = self.dkMode
 
+
+	def foundUser(self, usr):
+		i = len(self.uDB)
+		c = 1  #Counter c starts at 1 (to be used with a loop)
+		uTrue = False
+		while(c <= i):
+			#Check each record
+			uTrue = (self.uDB[str(c)]['user']['username'] == usr)
+			if(uTrue):
+				break
+			c = c+1
+		return uTrue
+
+
+
 #Code for setting up the intital user
 	def setUpMain(self, name,usr,pw,email):
 		#Note: Make this into it's own method that validates each part
@@ -254,9 +292,16 @@ class MyApp(MDApp):
 		if(name == "" or name == " " or name.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
-		if(usr == "" or usr == " " or usr.casefold() == "default"):
+		elif( not re.fullmatch(self.emailFormat, email)):
+			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		elif(usr == "" or usr == " " or usr.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
-			self.dialog.open()	
+			self.dialog.open()
+		elif(self.foundUser(usr)):
+			self.dialog = MDDialog( text="Invalid Username! Exists in the system!", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+
 		elif(len(pw)<6):
 			self.dialog = MDDialog( text="Invalid Password! Must be atleast 6 characters long ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
@@ -280,9 +325,15 @@ class MyApp(MDApp):
 		if(name == "" or name == " " or name.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
-		if(usr == "" or usr == " " or usr.casefold() == "default"):
+		elif(not re.fullmatch(self.emailFormat, email)):
+			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		elif(usr == "" or usr == " " or usr.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
 			self.dialog.open()	
+		elif(self.foundUser(usr)):
+			self.dialog = MDDialog( text="Invalid Username! Exists in the system!", radius=[20, 7, 20, 7],)
+			self.dialog.open()
 		elif(len(pw)<6):
 			self.dialog = MDDialog( text="Invalid Password! Must be atleast 6 characters long ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
@@ -329,11 +380,80 @@ class MyApp(MDApp):
 			ss.save(self.uDB)
 
 #-------------------Get/Set------------------------------------------------------------------------
+	#Change User's display name
+	def changeName(self, name):
+		if(name.casefold() == "default"):
+			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		elif(name == "" or name == " " or name.casefold() == self.name.casefold()):
+			#No name change
+			print("No Name Change")
+		else:
+			self.uDB[self.uID]['user'].update({'name':name})
+			
+			ss.save(self.uDB)
+			self.uDB = ss.load()
+			self.loadConfig(self.uID)
+			self.root.ids.profile_screen.ids['name_e'].text = ""
+
+	#Change User's Email
+	def changeEmail(self, email):
+		if(email == "" or email == " " or email.casefold() == self.email.casefold()):
+			#No email change
+			print("No Name Change")
+		elif(not re.fullmatch(self.emailFormat, email)):
+			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		else:
+			self.uDB[self.uID]['user'].update({'email':email})
+			
+			
+			ss.save(self.uDB)
+			self.uDB = ss.load()
+			self.loadConfig(self.uID)
+			self.root.ids.profile_screen.ids['email_e'].text = ""
+			
+
+	#Change User's password
+	def changePW(self, PW):
+		if(self.cPW == True):
+			if(PW == self.uDB[self.uID]['user']['password']):
+				#print("No Password Change")
+				self.dialog = MDDialog( text="No Password Change; Previous password is the same as new password! ", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+
+			elif(len(PW)<6):
+				self.dialog = MDDialog( text="Invalid Password! Must be longer thant 6 characters! ", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+			else:
+				self.uDB[self.uID]['user'].update({'password': PW})
+				ss.save(self.uDB)
+				self.uDB = ss.load()
+				self.loadConfig(self.uID)
+				self.root.ids.profile_screen.ids['pass_e'].text = ""
+				self.cPW = False
+		else:
+			if(PW =="" or PW == " "):
+				print("No Change")
+			elif(PW == self.uDB[self.uID]['user']['password']):
+				self.cPW = True 
+				self.root.ids.profile_screen.ids['pass_e'].text = ""
+				self.dialog = MDDialog( text="You can now change the password", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+			else:
+				self.dialog = MDDialog( text="Please enter current password first, then enter new password", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+
+
+
+
 	#Get the user's name 
 	def getName(self):
 		return self.name
 
-		#return self.name
+	# get the  name(display name) of user
+	def getEmail(self):
+		return  self.email
 
 	def getDarkMode(self):
 		return self.dkMode
