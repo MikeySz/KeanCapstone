@@ -189,7 +189,9 @@ class MyApp(MDApp):
 		#sets the id to match the new id only if current id is not equal to new on
 		if (screen_name != screen_manager.current):	
 			if(screen_name == 'login_screen'):
-				self.root.ids.home_screen.ids.bottomNav.switch_tab('screen 1')		
+				self.root.ids.home_screen.ids.bottomNav.switch_tab('screen 1')
+				self.theme_cls.primary_palette = "Orange"
+				self.theme_cls.theme_style = "Light"		
 			screen_manager.current = screen_name
 	#Returns the minimum size of an object
 	def getMinSize(self, width, height):
@@ -267,7 +269,7 @@ class MyApp(MDApp):
 		if (self.uDB[uID]['config']['darkmode']):
 			self.dkMode = True
 			self.theme_cls.theme_style = "Dark"
-			self.root.ids.home_screen.ids['darkmodeswitch'].active = self.dkMode
+			self.root.ids.settings_screen.ids['darkmodeswitch'].active = self.dkMode
 
 
 	def foundUser(self, usr):
@@ -477,7 +479,7 @@ class MyApp(MDApp):
 			ss.save(self.uDB)
 			#self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = r"Images\Icons\ProfileDefault.png'"#self.getProfilePic()
 			self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = profilePic
-			self.dialog = MDDialog( text="Upload Successful! Reset Required to View Changes! ", radius=[20, 7, 20, 7],)
+			self.dialog = MDDialog( text="Upload Successful! Reset, May be Required to View Changes! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
 		else:
 			print('It does not exists')
