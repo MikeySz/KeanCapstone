@@ -1,0 +1,53 @@
+#Terms of Serivce and Privacy Policy Screen
+
+<TosScreen>:
+	MDGridLayout:
+		cols: 1
+		rows:3
+		MDToolbar:
+			title:"Terms of Serivce & Privacy"
+			icon:"text-box-multiple"
+			type: "top"
+			elevation: 10
+			#size_hint: 1, .1
+			left_action_items:[['arrow-left', lambda x: app.change_screen("home_screen")]]
+
+		MDCard:
+			size_hint: 1 , .5
+			pos_hint: {'center_x': .5 , 'center_y': .5}
+			orientation: "vertical"
+			padding: "1dp"
+			
+			MDLabel:
+				text: "Terms of Service"
+				theme_text_color: "Secondary"
+				size_hint_y: None 
+				height: self.texture_size[1]
+				font_style: "H5"
+			MDSeparator: 
+				height: "1dp"
+
+			MDLabel:
+				font_style:"Body2"
+				markup: True
+				text: "[i]Solaire[/i] is a mobile application developed by [i]AMCJ[/i]. By using our application, you(the user/entity) are agreeing to our terms of service. This application is currently ment to showcase our skills in developing a mobile application with an emphasis on UI/UX. In no ways is it meant to be used in commerical environment in its current state. Users are responsible for using this app responsibly and within legal standards of their local laws."
+		
+		MDCard:
+			size_hint: 1 , .5
+			pos_hint: {'center_x': .5 , 'center_y': .5}
+			orientation: "vertical"
+			padding: "1dp"
+			
+			MDLabel:
+				text: "Privacy Policy"
+				theme_text_color: "Secondary"
+				size_hint_y: None 
+				height: self.texture_size[1]
+				font_style:"H5"
+			MDSeparator: 
+				height: "1dp"
+			MDLabel:
+				font_style:"Body2"
+				markup: True
+				text: "[i]AMCJ[/i], and it's mobile application [i]Solaire[/i] fully disclose that [u][b]all[/b] personal data is stored on the local device[/u] and [u][b]none[/b] is store in a database owned by [i]AMCJ[/i][/u]. Such that a 'User' must understand that [u][b]they[/b] are responsible[/u] for the protection of personal data on [u]'[b]their[/b] own device'[/u]."
+

@@ -1,0 +1,51 @@
+#Edit Profile Screen
+# Setting Screen Layout
+#Here we will keep settings to clear up cluttering in the homescreen
+<ProfileScreen>:
+	MDGridLayout:
+		cols: 1
+		rows:3
+		MDToolbar:
+			title:"Edit Profile"
+			icon:"account-circle"
+			type: "top"
+			elevation: 10
+			#size_hint: 1, .1
+			left_action_items:[['arrow-left', lambda x: app.change_screen("home_screen")]]
+
+		ScrollView:
+			size_hint: 1 , .5
+			do_scroll_y: False
+			MDList:	
+								
+				OneLineAvatarListItem:
+					text: "Change Profile Picture"		
+					ripple_scale: 0
+
+					IconLeftWidget:
+						icon: 'image'
+
+					MDRoundFlatIconButton:
+						text: "Upload Image"
+						icon: "folder"
+						pos_hint:{'right': .95 , 'center_y': .5}
+						on_release: app.file_manager_open() 
+
+					
+				OneLineAvatarListItem:
+					text: "Change Display Name"
+					ripple_scale: 0
+
+					IconLeftWidget:
+						icon: 'rename-box'
+
+				OneLineAvatarListItem:
+					text: "Change Email"
+					ripple_scale: 0
+
+					IconLeftWidget:
+						icon: 'email'
+
+								
+
+		MDLabel:

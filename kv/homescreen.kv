@@ -248,14 +248,16 @@
 								
 							OneLineAvatarListItem:
 								text: "Edit Profile"
+								on_release: app.change_screen("profile_screen")
 
 								IconLeftWidget:
 									icon: 'account-circle'	
-							OneLineAvatarListItem:
-								text: "Accessibility and Language"
+							
+							# OneLineAvatarListItem:
+							# 	text: "Accessibility and Language"
 
-								IconLeftWidget:
-									icon: 'human'
+							# 	IconLeftWidget:
+							# 		icon: 'human'
 
 							# OneLineAvatarListItem:
 							# 	text: "Enable Dark Mode"
@@ -274,6 +276,7 @@
 
 							OneLineAvatarListItem:
 								text: "Terms of Service and Privacy"
+								on_release: app.change_screen("tos_screen")
 
 								IconLeftWidget:
 									icon: 'text-box-multiple'

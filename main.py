@@ -11,6 +11,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.uix.image import Image
 
+from kivy.core.window import Window
+from kivy.factory import Factory
+from kivy.uix.modalview import ModalView
+
 
 
 from kivymd.app import MDApp
@@ -19,6 +23,9 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.utils import asynckivy
 from kivymd.uix.menu import MDDropdownMenu
 
+from kivymd.uix.filemanager import MDFileManager
+from kivymd.theming import ThemeManager
+from kivymd.toast import toast
 
 from os.path import exists
 import time
@@ -27,6 +34,12 @@ from kivy.core.window import Window
 Window.size = (400,600)
 
 from Py import ss
+
+from plyer import filechooser 
+import shutil 
+from os.path import join
+import os
+import time
 
 #----
 import requests
@@ -43,7 +56,12 @@ class HomeScreen(MDScreen):
 #Settings Screen
 class SettingsScreen(MDScreen):
 	pass
-
+#TOS Screen
+class TosScreen(MDScreen):
+	pass
+#Edit Profile Screen
+class ProfileScreen(MDScreen):
+	pass
 #Login screen
 class LoginScreen(MDScreen):
 	pass
@@ -65,7 +83,7 @@ class SignupScreen(MDScreen):
 #The Graphics are built within the main.kv and other .kv files
 #Main App
 class MyApp(MDApp):
-
+	title = "Solaire"
 	#Api Key for the Weather
 	api_key = "08969b47088a3aec7aed9f2547c9083e"
 	#---------------------------------
@@ -82,6 +100,34 @@ class MyApp(MDApp):
 	#Logic Methods
 	#profile picture path
 	proPic = ''
+	cwd = os.getcwd()
+	#print(cwd)
+#====================File Manager=======================
+	def file_manager_open(self):
+		path = " "
+		try:
+			path = filechooser.open_file()[0]
+		except:	
+			print("something went wrong")
+
+		print(path)
+		if path.endswith(".png") or path.endswith(".jpg") or path.endswith(".jpeg"):
+			print("Valid Image")
+			#print(join(self.cwd, 'Data'))
+			ProfilePic = r"Data\\"+'User'+self.uID+".png"
+			shutil.copy(path, join(self.cwd, ProfilePic))
+			os.chdir(self.cwd)
+			self.setProfilePic(ProfilePic)
+		elif(path == " "):
+			os.chdir(self.cwd)
+			self.dialog = MDDialog( text="No File Selected! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		else:
+			self.dialog = MDDialog( text="Invalid File Type! Please Use a .jpg/.jpeg or .png file! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+	
+
+#========================================================
 
 	#Logic that runs before the app starts, can be used to set the intial screen
 	def on_start(self):
@@ -138,15 +184,7 @@ class MyApp(MDApp):
 			return height
 		else:
 			return width
-	#Get the user's profile pic if it exists, else use default
-	def getProfilePic(self):
-		if(exists(self.proPic)):
-			print('It Exists')
-			return self.proPic
-			
-		else:
-			print('It does not exists using default')
-			return 'Images\Icons\ProfileDefault.png'
+
 	#Login- requires username and password
 	def login(self, usr, pw):
 		#Grab the length of the uDB dictionary
@@ -200,6 +238,7 @@ class MyApp(MDApp):
 		self.root.ids.home_screen.ids['sUname'].title = self.getName() +"'s Profile"
 
 		self.proPic = self.uDB[uID]['user']['profilepic']
+		print(self.getProfilePic())
 		self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = self.getProfilePic()
 
 		if (self.uDB[uID]['config']['darkmode']):
@@ -289,7 +328,7 @@ class MyApp(MDApp):
 			#print(self.uDB)
 			ss.save(self.uDB)
 
-#-------------------Gets------------------------------------------------------------------------
+#-------------------Get/Set------------------------------------------------------------------------
 	#Get the user's name 
 	def getName(self):
 		return self.name
@@ -298,6 +337,31 @@ class MyApp(MDApp):
 
 	def getDarkMode(self):
 		return self.dkMode
+	
+	#Get the user's profile pic if it exists, else use default
+	def getProfilePic(self):
+		if(exists(self.proPic)):
+			print('It Exists')
+			return self.proPic
+			
+		else:
+			print('It does not exists using default')
+			return 'Images\Icons\ProfileDefault.png'
+	
+	def setProfilePic(self, profilePic):
+		if(exists(profilePic)):
+			print('New Pic')
+			print(profilePic)
+			print(exists(profilePic))
+			self.uDB[self.uID]['user']['profilepic'] = profilePic
+			ss.save(self.uDB)
+			#self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = r"Images\Icons\ProfileDefault.png'"#self.getProfilePic()
+			self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = profilePic
+			self.dialog = MDDialog( text="Upload Successful! Reset Required to View Changes! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		else:
+			print('It does not exists')
+
 
 	def getPalette(self):
 		return self.theme_cls.primary_palette

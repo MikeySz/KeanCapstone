@@ -4,6 +4,8 @@
 #:include kv\loginscreen.kv
 #:include kv\setupscreen.kv
 #:include kv\signupscreen.kv
+#:include kv\tosscreen.kv
+#:include kv\profilescreen.kv
 
 MDFloatLayout:
 	# ScreenManager; in charge of selecting the screen
@@ -32,6 +34,13 @@ MDFloatLayout:
 			SettingsScreen:
 				name: "settings_screen"
 				id: settings_screen
+
+			TosScreen:
+				name: "tos_screen"
+				id: tos_screen
+			ProfileScreen:
+				name: "profile_screen"
+				id: profile_screen
 
 
 
