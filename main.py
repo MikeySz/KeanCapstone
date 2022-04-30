@@ -189,9 +189,10 @@ class MyApp(MDApp):
 		#sets the id to match the new id only if current id is not equal to new on
 		if (screen_name != screen_manager.current):	
 			if(screen_name == 'login_screen'):
+				self.theme_cls.theme_style = "Light"
 				self.root.ids.home_screen.ids.bottomNav.switch_tab('screen 1')
 				self.theme_cls.primary_palette = "Orange"
-				self.theme_cls.theme_style = "Light"		
+						
 			screen_manager.current = screen_name
 	#Returns the minimum size of an object
 	def getMinSize(self, width, height):
@@ -217,7 +218,7 @@ class MyApp(MDApp):
 				self.root.ids.login_screen.ids['usr'].text = ""
 				self.root.ids.login_screen.ids['pw'].text = ""
 				#reset the signup screen
-				self.root.ids.signup_screen.ids['name'].text = ""
+				#self.root.ids.signup_screen.ids['name'].text = ""
 				self.root.ids.signup_screen.ids['usr'].text = ""
 				self.root.ids.signup_screen.ids['email'].text = ""
 				self.root.ids.signup_screen.ids['pw'].text = ""
@@ -236,6 +237,14 @@ class MyApp(MDApp):
 					self.uID = str(c)
 					self.loadConfig(self.uID)
 					self.change_screen('home_screen')
+					#reset the login screen
+					self.root.ids.login_screen.ids['usr'].text = ""
+					self.root.ids.login_screen.ids['pw'].text = ""
+					#reset the signup screen
+					#self.root.ids.signup_screen.ids['name'].text = ""
+					self.root.ids.signup_screen.ids['usr'].text = ""
+					self.root.ids.signup_screen.ids['email'].text = ""
+					self.root.ids.signup_screen.ids['pw'].text = ""
 					break
 				c = c+1
 			if(not uTrue or not pTrue):
@@ -257,7 +266,9 @@ class MyApp(MDApp):
 		self.root.ids.profile_screen.ids['name_e'].hint_text = self.getName()
 		self.root.ids.profile_screen.ids['email_e'].hint_text = self.getEmail()
 		
-
+		#----------Weather screen---------------------------
+		self.local_weather()
+		self.root.ids.home_screen.ids['city_name'].text = ""
 
 		#------Settings profile display------------------------
 		self.root.ids.home_screen.ids['sUname'].title = self.getName() +"'s Profile"
@@ -539,6 +550,16 @@ class MyApp(MDApp):
 		city_name = self.root.ids.home_screen.ids['city_name'].text
 		if city_name != "":
 			self.get_weather(city_name)
+
+	def local_weather(self):
+		try:
+			soup = BeautifulSoup(requests.get(f"https://www.google.com/search?q=weather+at+my+current+location").text,"html.parser")
+			temp = soup.find("span", class_="BNeawe tAd8D AP7Wnd")
+			location = ''.join(filter(lambda item: not item.isdigit(), temp.text)).split(",", 1)
+			self.get_weather(location[0])
+		except requests.ConnectionError:
+			print("Unable to connect")
+			exit()
 		
 
 
