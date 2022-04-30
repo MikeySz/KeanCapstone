@@ -39,65 +39,138 @@
 				text: 'Weather'
 				icon: 'weather-partly-cloudy'
 #+++++++++++++++Weather Screen Layout+++++++++++++++++++++++++++++++++++++++++++++++++++++
-				MDGridLayout: 
-					cols:3
-					rows:6
-					line_color: app.theme_cls.primary_color
-					line_width: 25
+				MDBoxLayout:
+					orientation: "vertical"
+					#md_bg_color: app.theme_cls.primary_color
+					MDGridLayout: 
+						cols:3
+						rows:6
+						line_color: app.theme_cls.primary_color
+						line_width: 25
+						
+						#-------------ROW 1----------------#
+						MDLabel:
+							#size_hint: .2, .2
+						Image:
+							source: "assets/loc.png"
+							#size_hint: .2, .2
+							pos_hint: {"center_x":.5, "center_y":.5}
+						MDLabel:
+							#size_hint: .2, .2
+		
+						#-------------ROW 2----------------#
+						MDLabel:
+							size_hint: .2, .3
+						MDLabel:
+							size_hint: .6, .3
+							id: location
+							text: ""
+							#pos_hint: {"center_x": .5, "center_y": .89}
+							halign: "center"
+							font_size: "18sp"
+							font_name: "Lato"
+						MDLabel:
+							size_hint: .2, .3
 
-					#-------------ROW 1----------------#
-					MDLabel:
-					MDLabel:
-						id: location
-						text: ""
-						#pos_hint: {"center_x": .5, "center_y": .89}
-						halign: "center"
-						font_size: "20sp"
-						#font_name: "Lato"
-					MDLabel:
+						#-------------ROW 3----------------#
+						MDLabel:
+							#size_hint: .2, .2
+						Image:
+							id: weather_image
+							source: ""
+							#size_hint: .2, .2
+							pos_hint: {"center_x":.5, "center_y":.5}
+						MDLabel:
+							#size_hint: .2, .2
 
-					#-------------ROW 2----------------#
 
-					MDLabel:
-					MDIcon:
-						id: weather_image
-						icon: "weather-partly-cloudy"
-						halign: "center"
-						font_size: "90sp"
-						#md_bg_color: app.theme_cls.primary_color
-						specific_text_color:  app.theme_cls.primary_color
-						#pos_hint: {"center_x": .5, "center_y": .77}
-					MDLabel:
+						#-------------ROW 4----------------#
+						MDLabel:
+							size_hint: .3, .3
+						MDLabel:
+							id: weather
+							text: ""
+							#pos_hint: {"center_x": .5, "center_y": .54}
+							halign: "center"
+							font_size: "20sp"
+							font_name: "Lato"
+						MDLabel:
+							size_hint: .3, .3
+						
 
-					#-------------ROW 3----------------#
+						#-------------ROW 5----------------#
+						MDLabel:
+						MDLabel:
+							id: temperature
+							text: ""
+							markup: True
+							#pos_hint: {"center_x": .5, "center_y": .62}
+							halign: "center"
+							font_size: "60sp"
+						MDLabel:
+						#------------ROW 6------------------#
+						MDBoxLayout:
+							orientation: "horizontal"
+							Image:
+								source: "assets/humidity.png"
+							MDBoxLayout:
+								orientation: "vertical"
+								MDLabel:
+									id: humidity
+									text: ""
+									#pos_hint: {"center_x": 1, "center_y": .7}
+									halign: "center"
+									font_size: "18sp"
+									font_name: "Lato"	
+								MDLabel:
+									text: "Humidity"
+									#pos_hint: {"center_x": 1, "center_y": .3}
+									halign: "center"
+									font_size: "14sp"
+									font_name: "Lato"
+						MDSeparator:
+							
+						MDBoxLayout:
+							orientation: "horizontal"
+							Image:
+								source: "assets/speed.png"
+							MDBoxLayout:
+								orientation: "vertical"
+								MDLabel:
+									id: wind_speed
+									text: ""
+									#pos_hint: {"center_x": 1, "center_y": .7}
+									halign: "center"
+									font_size: "16sp"
+									font_name: "Lato"	
+								MDLabel:
+									text: "Wind"
+									#pos_hint: {"center_x": 1, "center_y": .3}
+									halign: "center"
+									font_size: "14sp"
+									font_name: "Lato"
+							MDLabel:
+					#------------------Search City-----------------#
+				
+					MDTextField: 
+						id: city_name
+						pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+						size_hint_x:None
+						width: 200
+						hint_text: "Enter City"
+						helper_text:"City Not Found"
+						helper_text_mode: "on_error"
+						#max_text_length: 25
+						#padding: [6, 6, 6, 6]
+						
 
-					MDLabel:
-						id: weather
-						text: ""
-						#pos_hint: {"center_x": .5, "center_y": .54}
-						halign: "center"
-						font_size: "20sp"
-						#font_name: "Lato"
-					MDLabel:
-						id: temperature
-						text: ""
-						markup: True
-						#pos_hint: {"center_x": .5, "center_y": .62}
-						halign: "center"
-						font_size: "60sp"
-					MDLabel:
-						id: humidity
-						text: ""
-						#pos_hint: {"center_x": 1, "center_y": .7}
-						halign: "center"
-						font_size: "18sp"
-						#font_name: "Lato"
-					# MDLabel:
-					# 	text: "Humidity"
-					# 	#pos_hint: {"center_x": 1, "center_y": .3}
-					# 	halign: "center"
-					# 	font_size: "14sp"
-					# 	#font_name: "Lato"
+
+					MDFillRoundFlatIconButton:
+						icon: "magnify"
+						text: "Get Weather"
+						on_release: app.search_weather()
+						pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
 
 
 					# MDFloatLayout:

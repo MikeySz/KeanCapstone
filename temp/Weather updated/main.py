@@ -153,6 +153,8 @@ class WeatherSection(MDApp): # OpenweatherAPI
                 humidity = x["main"]["humidity"]
                 weather = x["weather"][0]['main']
                 id = str(x["weather"][0]["id"])
+                icon = (x["weather"][[0]["icon"]])
+                print(id)
                 wind_speed = round(x["wind"]["speed"] * 18 / 5)
                 location = x["name"] + ", " + x["sys"]["country"]
                 self.root.ids.temperature.text = f"[b]{temperature}[/b]°F"

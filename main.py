@@ -169,7 +169,7 @@ class MyApp(MDApp):
 
 	#Builds the app
 	def build(self):
-		
+
 		#Set the COLOR and THEME of the app
 		self.theme_cls.material_style = 'M3'
 		self.theme_cls.primary_palette = "Orange"
@@ -512,23 +512,26 @@ class MyApp(MDApp):
 
 				self.root.ids.home_screen.ids['temperature'].text = f"[b]{temperature}[/b]"
 				self.root.ids.home_screen.ids['weather'].text = str(weather)
-				self.root.ids.home_screen.ids['humidity'].text = "Humidity:        "+f"{humidity}%"
-				#self.root.ids.home_screen.ids['wind_speed'].text = f"{wind_speed} km/h"
+				self.root.ids.home_screen.ids['humidity'].text = f"{humidity}%" #"Humidity:        "+f"{humidity}%"
+				self.root.ids.home_screen.ids['wind_speed'].text = f"{wind_speed} km/h"
 				self.root.ids.home_screen.ids['location'].text = location
-				# if id == "800":  # Matches weather with corresponding icons
-				#     self.root.ids.weather_image.source = "assets/loc.png"
-				# elif "200" <= id <= "232":
-				#     self.root.ids.weather_image.source = "assets/loc.png"
-				# elif "300" <= id <= "321" and "500" <= id <= "531":
-				#     self.root.ids.weather_image.source = "assets/loc.png"
-				# elif "200" <= id <= "232":
-				#     self.root.ids.weather_image.source = "assets/loc.png"
-				# elif "200" <= id <= "232":
-				#     self.root.ids.weather_image.source = "assets/loc.png"
-				# elif "200" <= id <= "232":
-				#     self.root.ids.weather_image.source = "assets/loc.png"
+				if id == "800":  # Matches weather with corresponding icons
+				    self.root.ids.home_screen.ids.weather_image.source = "assets/sun.png"
+				elif "200" <= id <= "232":
+				    self.root.ids.home_screen.ids.weather_image.source = "assets/storm.png"
+				elif "300" <= id <= "321" and "500" <= id <= "531":
+				    self.root.ids.home_screen.ids.weather_image.source = "assets/rain.png"
+				elif "600" <= id <= "622":
+				    self.root.ids.home_screen.ids.weather_image.source = "assets/snow.png"
+				elif "700" <= id <= "781":
+				    self.root.ids.home_screen.ids.weather_image.source = "assets/haze.png"
+				elif "801" <= id <= "804":
+				    self.root.ids.home_screen.ids.weather_image.source = "assets/clouds.png"
 			else:
 				print("City Unknown")
+				self.dialog = MDDialog( text="The City you entered is not found! Check your spelling and please try again.", radius=[20, 7, 20, 7],)
+				self.dialog.open()
+				
 		except requests.ConnectionError:
 			print("Unable to connect")
 
@@ -536,10 +539,13 @@ class MyApp(MDApp):
 		city_name = self.root.ids.home_screen.ids['city_name'].text
 		if city_name != "":
 			self.get_weather(city_name)
+		
 
 
 	#-----------------------------------------------------------------------------------------
 
 #Runs the application
 if __name__ == '__main__':
+	LabelBase.register(name="Lato", fn_regular="assets\\fonts\\lato.ttf")
+
 	MyApp().run()
