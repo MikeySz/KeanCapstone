@@ -291,13 +291,10 @@ class MyApp(MDApp):
 		#Note: Make this into it's own method that validates each part
 		#returns a boolean alongside a string
 		#Error checks that return a dialog box with the first error
-		if(name == "" or name == " " or name.casefold() == "default"):
-			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
-			self.dialog.open()
-		elif( not re.fullmatch(self.emailFormat, email)):
-			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
-			self.dialog.open()
-		elif(usr == "" or usr == " " or usr.casefold() == "default"):
+		# if(name == "" or name == " " or name.casefold() == "default"):
+		# 	self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
+		# 	self.dialog.open()
+		if(usr == "" or usr == " " or usr.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
 			self.dialog.open()
 		elif(self.foundUser(usr)):
@@ -307,9 +304,13 @@ class MyApp(MDApp):
 		elif(len(pw)<6):
 			self.dialog = MDDialog( text="Invalid Password! Must be atleast 6 characters long ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
+
+		elif( not re.fullmatch(self.emailFormat, email)):
+			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
 		#if all goes fine, we modify the default user and save the file	
 		else:
-			self.uDB['1']['user'].update({'name':name})
+			#self.uDB['1']['user'].update({'name':name})
 			self.uDB['1']['user'].update({'username':usr})
 			self.uDB['1']['user'].update({'password':pw})
 			self.uDB['1']['user'].update({'email':email})
@@ -324,13 +325,10 @@ class MyApp(MDApp):
 		#Note: Make this into it's own method that validates each part
 		#returns a boolean alongside a string
 		#Error checks that return a dialog box with the first error
-		if(name == "" or name == " " or name.casefold() == "default"):
-			self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
-			self.dialog.open()
-		elif(not re.fullmatch(self.emailFormat, email)):
-			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
-			self.dialog.open()
-		elif(usr == "" or usr == " " or usr.casefold() == "default"):
+		# if(name == "" or name == " " or name.casefold() == "default"):
+		# 	self.dialog = MDDialog( text="Invalid name! Please Try Again! ", radius=[20, 7, 20, 7],)
+		# 	self.dialog.open()
+		if(usr == "" or usr == " " or usr.casefold() == "default"):
 			self.dialog = MDDialog( text="Invalid Username! Please Try Again!", radius=[20, 7, 20, 7],)
 			self.dialog.open()	
 		elif(self.foundUser(usr)):
@@ -338,6 +336,9 @@ class MyApp(MDApp):
 			self.dialog.open()
 		elif(len(pw)<6):
 			self.dialog = MDDialog( text="Invalid Password! Must be atleast 6 characters long ", radius=[20, 7, 20, 7],)
+			self.dialog.open()
+		elif(not re.fullmatch(self.emailFormat, email)):
+			self.dialog = MDDialog( text="Invalid Email! Please Try Again! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
 		#if all goes fine, we modify the default user and save the file	
 		else:
@@ -347,7 +348,7 @@ class MyApp(MDApp):
 
 		#creating a temporary dictionary to add to the main one	
 			tempDB = ss.defaultDT(i)
-			tempDB[i]['user'].update({'name':name})
+			#tempDB[i]['user'].update({'name':name})
 			tempDB[i]['user'].update({'username':usr})
 			tempDB[i]['user'].update({'password':pw})
 			tempDB[i]['user'].update({'email':email})
