@@ -37,27 +37,27 @@ def defaultDT(uNum):
 def createDefault():
 	#Checks if a file exists; Mostly to avoid overwriting a previous save
 	#IF not, then we create the file
-	if (not exists(r'Data\userDB.json')):
+	if (not exists('Data/userDB.json')):
 		#uDB is a multilayered dictionary structure
 		uDB = defaultDT(1)
 		
 		
 		#Opens/creates the file
-		uFile = open(r'Data\userDB.json', 'w+')
+		uFile = open('Data/userDB.json', 'w+')
 		#populates the file the default   
-		with open(r'Data\userDB.json', 'w+') as filehandle:
+		with open('Data/userDB.json', 'w+') as filehandle:
 			json.dump(uDB, filehandle)
 #--------------------------------------------------------------------------------------
 #Loads the userDB file into the the app when called
 def load():
-	with open(r'Data\userDB.json') as f:
+	with open('Data/userDB.json') as f:
 		uDB = json.load(f)
 		return uDB
 #---------------------------------------------------------------------------------------
 #saves the Local app userDB dictionary into the main save file
 def save(uDB):
 	print(uDB)
-	with open(r'Data\userDB.json', 'w+') as filehandle:
+	with open('Data/userDB.json', 'w+') as filehandle:
 		json.dump(uDB, filehandle)
 	print("Save Success")
 #---------------------------------------------------------------------------------------

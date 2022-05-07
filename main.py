@@ -164,7 +164,7 @@ class MyApp(MDApp):
 		if path.endswith(".png") or path.endswith(".jpg") or path.endswith(".jpeg"):
 			print("Valid Image")
 			#print(join(self.cwd, 'Data'))
-			ProfilePic = r"Data\\"+'User'+self.uID+".png"
+			ProfilePic = "Data/"+'User'+self.uID+".png"
 			shutil.copy(path, join(self.cwd, ProfilePic))
 			os.chdir(self.cwd)
 			self.setProfilePic(ProfilePic)
@@ -524,7 +524,7 @@ class MyApp(MDApp):
 			
 		else:
 			print('It does not exists using default')
-			return 'Images\Icons\ProfileDefault.png'
+			return 'Images/Icons/ProfileDefault.png'
 	
 	def setProfilePic(self, profilePic):
 		if(exists(profilePic)):
@@ -533,7 +533,7 @@ class MyApp(MDApp):
 			print(exists(profilePic))
 			self.uDB[self.uID]['user']['profilepic'] = profilePic
 			ss.save(self.uDB)
-			#self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = r"Images\Icons\ProfileDefault.png'"#self.getProfilePic()
+			#self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = r"Images/Icons/ProfileDefault.png'"#self.getProfilePic()
 			self.root.ids.home_screen.ids['pic'].canvas.get_group('a')[0].source = profilePic
 			self.dialog = MDDialog( text="Upload Successful! Reset, May be Required to View Changes! ", radius=[20, 7, 20, 7],)
 			self.dialog.open()
@@ -611,6 +611,6 @@ class MyApp(MDApp):
 
 #Runs the application
 if __name__ == '__main__':
-	LabelBase.register(name="Lato", fn_regular="assets\\fonts\\lato.ttf")
+	LabelBase.register(name="Lato", fn_regular="assets/fonts/lato.ttf")
 
 	MyApp().run()
