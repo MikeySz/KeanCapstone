@@ -26,6 +26,11 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.theming import ThemeManager
 from kivymd.toast import toast
+from kivy.uix.image import Image
+from kivy.graphics.texture import Texture
+from kivy.clock import Clock
+import cv2
+
 
 from os.path import exists
 import time
@@ -49,6 +54,7 @@ from kivy.core.window import Window
 
 import re
 
+
 #--------------------------------
 #Class Objects
 
@@ -71,6 +77,39 @@ class SetupScreen(MDScreen):
 	pass
 class SignupScreen(MDScreen):
 	pass
+
+class CameraDisplay(Image):
+	run = True
+	def __init__(self,**kwargs):
+		super(CameraDisplay, self).__init__(**kwargs)
+		#connect to intial camera
+		self.capture = cv2.VideoCapture(0)
+		#set drawing interval
+		Clock.schedule_interval(self.update,1.0 / 30)
+	def update(self, dt):
+		#while self.run:
+		#this is the frame
+		if(self.run):
+			ret, self.frame = self.capture.read()
+			#make it into a kivy texture to be used
+			buf = cv2.flip(self.frame, 0).tobytes()
+			texture = Texture.create(size=(self.frame.shape[1],self.frame.shape[0]),colorfmt='bgr')
+			texture.blit_buffer(buf, colorfmt = 'bgr', bufferfmt ='ubyte')
+			#change the frames
+			self.texture = texture
+	def takepic(self):
+		cv2.imwrite(filename='img.jpg',img=self.frame)
+		img_new=cv2.imread('img.jpg')
+		img_new=cv2.imshow("CapturedImage",img_new)
+		cv2.waitKey(0)
+		cv2.destroyAllWindows()
+	def pauseplay(self, status):
+		if(status == "play"):
+			self.run = True
+		elif(status == "pause"):
+			self.run = False
+
+
 
 
 
@@ -162,6 +201,8 @@ class MyApp(MDApp):
 		except requests.ConnectionError:
 			print("Unable to connect")
 			exit()
+		except AttributeError:
+			self.get_weather("Union")
 
 
 
@@ -267,7 +308,10 @@ class MyApp(MDApp):
 		self.root.ids.profile_screen.ids['email_e'].hint_text = self.getEmail()
 		
 		#----------Weather screen---------------------------
-		self.local_weather()
+		try:
+			self.local_weather()
+		except AttributeError:
+			self.get_weather("Union")
 		self.root.ids.home_screen.ids['city_name'].text = ""
 
 		#------Settings profile display------------------------
@@ -530,7 +574,7 @@ class MyApp(MDApp):
 				    self.root.ids.home_screen.ids.weather_image.source = "assets/sun.png"
 				elif "200" <= id <= "232":
 				    self.root.ids.home_screen.ids.weather_image.source = "assets/storm.png"
-				elif "300" <= id <= "321" and "500" <= id <= "531":
+				elif "300" <= id <= "321" or "500" <= id <= "531":
 				    self.root.ids.home_screen.ids.weather_image.source = "assets/rain.png"
 				elif "600" <= id <= "622":
 				    self.root.ids.home_screen.ids.weather_image.source = "assets/snow.png"
