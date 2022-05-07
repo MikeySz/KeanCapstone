@@ -22,7 +22,7 @@ def defaultDT(uNum):
 		{"user":   #Main APP: uDB[1]['user'] =========================
 				{"username":"default", #Username used for loggin in
 				"password":"default",  #Password used alongside username to log a user in
-				"name": "",   #Name used to address the user within the app
+				"name": "user",   #Name used to address the user within the app
 				"email":"",   #User's email
 				"profilepic":" "},  
 

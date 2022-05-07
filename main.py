@@ -342,7 +342,7 @@ class MyApp(MDApp):
 
 
 #Code for setting up the intital user
-	def setUpMain(self, name,usr,pw,email):
+	def setUpMain(self, usr,pw,email):
 		#Note: Make this into it's own method that validates each part
 		#returns a boolean alongside a string
 		#Error checks that return a dialog box with the first error
@@ -376,7 +376,7 @@ class MyApp(MDApp):
 			
 			#print('1' in self.uDB) #We can use this to check if a key exists
 #Code for adding a new account
-	def addAccount(self, name,usr,pw,email):
+	def addAccount(self,usr,pw,email):
 		#Note: Make this into it's own method that validates each part
 		#returns a boolean alongside a string
 		#Error checks that return a dialog box with the first error
@@ -524,7 +524,7 @@ class MyApp(MDApp):
 			
 		else:
 			print('It does not exists using default')
-			return 'Images/Icons/ProfileDefault.png'
+			return 'Data/ProfileDefault.png'
 	
 	def setProfilePic(self, profilePic):
 		if(exists(profilePic)):
