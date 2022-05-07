@@ -49,9 +49,41 @@
 				icon: 'youtube'
 
 #+++++++++++++++YT/Video Screen Layout+++++++++++++++++++++++++++++++++
-				MDLabel:
-					text: 'Video'
-					halign: 'center'
+				# MDLabel:
+				# 	text: 'Video'
+				# 	halign: 'center'
+				MDGridLayout:
+					cols: 1
+					rows: 2
+					MDGridLayout:
+						size_hint: 1,.1
+						rows:1
+						cols: 3
+						MDTextField:
+							id: yt_search
+							hint_text: "Youtube"
+							#font_name: "Pacifico-Regular.ttf"
+							#pos_hint: {'center_x': 1, 'center_y': 0.95}
+							#size_hint: .05, .5
+
+						MDLabel:
+							#width: 50
+						MDFillRoundFlatIconButton:
+							icon: "magnify"
+							text: "Search"
+							on_release: app.run_search(yt_search.text)
+							#pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+					ScrollView:
+						size_hint: 1 , .9
+						do_scroll_x: False
+
+						MDList:
+							id: yt_results
+							group: 'yt'
+
+
+
 				
 
 #===========================================================================================
@@ -90,7 +122,7 @@
 							#pos_hint: {"center_x": .5, "center_y": .89}
 							halign: "center"
 							font_size: "18sp"
-							#font_name: "Lato"
+							font_name: "Lato"
 						MDLabel:
 							size_hint: .2, .3
 
@@ -115,7 +147,7 @@
 							#pos_hint: {"center_x": .5, "center_y": .54}
 							halign: "center"
 							font_size: "20sp"
-							#font_name: "Lato"
+							font_name: "Lato"
 						MDLabel:
 							size_hint: .3, .3
 						
@@ -143,13 +175,13 @@
 									#pos_hint: {"center_x": 1, "center_y": .7}
 									halign: "center"
 									font_size: "18sp"
-									#font_name: "Lato"	
+									font_name: "Lato"	
 								MDLabel:
 									text: "Humidity"
 									#pos_hint: {"center_x": 1, "center_y": .3}
 									halign: "center"
 									font_size: "14sp"
-									#font_name: "Lato"
+									font_name: "Lato"
 						MDSeparator:
 							
 						MDBoxLayout:
@@ -164,13 +196,13 @@
 									#pos_hint: {"center_x": 1, "center_y": .7}
 									halign: "center"
 									font_size: "16sp"
-									#font_name: "Lato"	
+									font_name: "Lato"	
 								MDLabel:
 									text: "Wind"
 									#pos_hint: {"center_x": 1, "center_y": .3}
 									halign: "center"
 									font_size: "14sp"
-									#font_name: "Lato"
+									font_name: "Lato"
 							MDLabel:
 					#------------------Search City-----------------#
 				

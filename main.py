@@ -22,6 +22,7 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.dialog import MDDialog
 from kivymd.utils import asynckivy
 from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.list import OneLineAvatarListItem, IconLeftWidget
 
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.theming import ThemeManager
@@ -54,6 +55,7 @@ from kivy.core.window import Window
 
 import re
 
+from googleapiclient.discovery import build
 
 #--------------------------------
 #Class Objects
@@ -233,6 +235,11 @@ class MyApp(MDApp):
 				self.theme_cls.theme_style = "Light"
 				self.root.ids.home_screen.ids.bottomNav.switch_tab('screen 1')
 				self.theme_cls.primary_palette = "Orange"
+				try:
+					self.root.ids.home_screen.ids['yt_results'].clear_widgets()
+				except:
+					pass
+				self.root.ids.home_screen.ids['yt_search'].text = ''	
 						
 			screen_manager.current = screen_name
 	#Returns the minimum size of an object
@@ -302,7 +309,13 @@ class MyApp(MDApp):
 		self.name = self.uDB[uID]['user']['name']
 		self.email = self.uDB[uID]['user']['email']
 		
-	
+		
+		#--------Youtube Screen-------------------------------------
+		try:
+			self.root.ids.home_screen.ids['yt_results'].clear_widgets()
+		except:
+			pass
+		self.root.ids.home_screen.ids['yt_search'].text = ''	
 		#--------Edit profile screen------------------------------------------------------
 		self.root.ids.profile_screen.ids['name_e'].hint_text = self.getName()
 		self.root.ids.profile_screen.ids['email_e'].hint_text = self.getEmail()
@@ -604,6 +617,43 @@ class MyApp(MDApp):
 		except requests.ConnectionError:
 			print("Unable to connect")
 			exit()
+	#---------------------------------Youtube Related Functions--------------------------------
+	def run_search(self, obj):
+		api_key = 'AIzaSyAmmmNrh3usjygIzlvZYfKsckuZu8qM4Ns'
+		youtube = build('youtube', 'v3', developerKey=api_key)
+		request = youtube.search().list(
+			q= self.root.ids.home_screen.ids['yt_search'].text,
+			part='snippet',
+			type='video',
+			eventType='live',
+			maxResults="20"
+		)
+		response = request.execute()
+		#print(response)
+		# OneLineAvatarListItem:
+		# 						text: "Edit Profile"
+		# 						on_release: app.change_screen("profile_screen")
+
+		# 						IconLeftWidget:
+		# 							icon: 'account-circle'
+		
+		
+		try:
+			self.root.ids.home_screen.ids['yt_results'].clear_widgets()
+		except:
+			pass
+		for item in response['items']:
+			#print(item['snippet']['title'])
+			#print(item['snippet']['description'])
+			listItem = OneLineAvatarListItem(text = item['snippet']['title'])
+			listItem.font_style = "Caption"
+			listItem.add_widget(IconLeftWidget(icon = "youtube"))
+			self.root.ids.home_screen.ids['yt_results'].add_widget(listItem)
+
+		# label = MDLabel(text="Results here", halign="center")
+		# return label
+		youtube.close()
+
 		
 
 
