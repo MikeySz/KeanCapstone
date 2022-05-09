@@ -9,7 +9,7 @@
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from kivy.uix.image import Image
+from kivy.uix.image import Image, AsyncImage
 
 from kivy.core.window import Window
 from kivy.factory import Factory
@@ -22,7 +22,9 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.dialog import MDDialog
 from kivymd.utils import asynckivy
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.list import OneLineAvatarListItem, IconLeftWidget
+from kivymd.uix.button import MDRectangleFlatButton
+from kivymd.uix.list import OneLineAvatarListItem, IconLeftWidget, ImageLeftWidget
+from kivy.uix.videoplayer import VideoPlayer
 
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.theming import ThemeManager
@@ -154,6 +156,10 @@ class MyApp(MDApp):
 	proPic = ''
 	cwd = os.getcwd()
 	#print(cwd)
+
+	# Youtube api
+	yt_api_key = 'AIzaSyAJjsDEHnLH8IW8S9R2p6vH_wBaArunAWU'
+	youtube = build('youtube', 'v3', developerKey=yt_api_key)
 #====================File Manager=======================
 	def file_manager_open(self):
 		path = " "
@@ -619,14 +625,12 @@ class MyApp(MDApp):
 			exit()
 	#---------------------------------Youtube Related Functions--------------------------------
 	def run_search(self, obj):
-		api_key = 'AIzaSyAmmmNrh3usjygIzlvZYfKsckuZu8qM4Ns'
-		youtube = build('youtube', 'v3', developerKey=api_key)
-		request = youtube.search().list(
+		request = self.youtube.search().list(
 			q= self.root.ids.home_screen.ids['yt_search'].text,
 			part='snippet',
 			type='video',
 			eventType='live',
-			maxResults="20"
+			maxResults="15"
 		)
 		response = request.execute()
 		#print(response)
@@ -645,14 +649,118 @@ class MyApp(MDApp):
 		for item in response['items']:
 			#print(item['snippet']['title'])
 			#print(item['snippet']['description'])
-			listItem = OneLineAvatarListItem(text = item['snippet']['title'])
+			listItem = OneLineAvatarListItem(text = item['snippet']['title'], on_release=self.view_video)
 			listItem.font_style = "Caption"
-			listItem.add_widget(IconLeftWidget(icon = "youtube"))
+			#thumbnail = AsyncImage(source=item['snippet']['thumbnails']['default']['url'])
+			listItem.add_widget(ImageLeftWidget(source=item['snippet']['thumbnails']['default']['url']))
 			self.root.ids.home_screen.ids['yt_results'].add_widget(listItem)
+
+		nextToken = response['nextPageToken']
+		next_button = MDRectangleFlatButton(
+				text= "Next",
+				pos_hint={'x': 1},
+				on_press=lambda token: self.load_next(nextToken)
+			)
+		self.root.ids.home_screen.ids['yt_results'].add_widget(next_button)
+			#pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
 		# label = MDLabel(text="Results here", halign="center")
 		# return label
-		youtube.close()
+
+	def load_next(self, token):
+		request = self.youtube.search().list(
+			q= self.root.ids.home_screen.ids['yt_search'].text,
+			part='snippet',
+			type='video',
+			eventType='live',
+			maxResults="15",
+			pageToken=token
+		)
+		response = request.execute()
+		try:
+			self.root.ids.home_screen.ids['yt_results'].clear_widgets()
+		except:
+			pass
+		for item in response['items']:
+			listItem = OneLineAvatarListItem(text = item['snippet']['title'], on_release=self.view_video)
+			listItem.font_style = "Caption"
+			listItem.add_widget(ImageLeftWidget(source=item['snippet']['thumbnails']['default']['url']))
+			self.root.ids.home_screen.ids['yt_results'].add_widget(listItem)
+		try:
+			prevToken = response['prevPageToken']
+			prev_button = MDRectangleFlatButton(
+				text= "Prev",
+				on_press=lambda token: self.load_previous(prevToken)
+			)
+			self.root.ids.home_screen.ids['yt_results'].add_widget(prev_button)
+		except:
+			pass
+		try:
+			nextToken = response['nextPageToken']
+			next_button = MDRectangleFlatButton(
+					text= "Next",
+					on_press=lambda token: self.load_next(nextToken)
+				)
+			self.root.ids.home_screen.ids['yt_results'].add_widget(next_button)
+		except:
+			pass
+
+	def load_previous(self, token):
+		request = self.youtube.search().list(
+			q= self.root.ids.home_screen.ids['yt_search'].text,
+			part='snippet',
+			type='video',
+			eventType='live',
+			maxResults="15",
+			pageToken=token
+		)
+		response = request.execute()
+		try:
+			self.root.ids.home_screen.ids['yt_results'].clear_widgets()
+		except:
+			pass
+		for item in response['items']:
+			listItem = OneLineAvatarListItem(text = item['snippet']['title'], on_release=self.view_video)
+			listItem.font_style = "Caption"
+			listItem.add_widget(ImageLeftWidget(source=item['snippet']['thumbnails']['default']['url']))
+			self.root.ids.home_screen.ids['yt_results'].add_widget(listItem)
+		try:
+			prevToken = response['prevPageToken']
+			prev_button = MDRectangleFlatButton(
+					text= "Prev",
+					on_press=lambda token: self.load_previous(prevToken)
+				)
+			self.root.ids.home_screen.ids['yt_results'].add_widget(prev_button)
+		except:
+			pass
+		nextToken = response['nextPageToken']
+		next_button = MDRectangleFlatButton(
+				text= "Next",
+				on_press=lambda token: self.load_next(nextToken)
+			)
+		self.root.ids.home_screen.ids['yt_results'].add_widget(next_button)
+
+
+	def view_video(self, obj):
+		try:
+			self.root.ids.home_screen.ids['yt_results'].clear_widgets()
+		except:
+			pass
+		request = self.youtube.search().list(
+			q= obj.text,
+			part='snippet',
+			type='video',
+			eventType='live',
+			maxResults="1"
+		)
+		response = request.execute()
+		for item in response['items']:
+			videoID = item['id']['videoId']
+			player = VideoPlayer(source=f"https://www.youtube.com/watch?v={videoID}")
+			player.state = 'play'
+			player.allow_stretch = True
+			self.root.ids.home_screen.ids['yt_results'].add_widget(player)
+
 
 		
 
