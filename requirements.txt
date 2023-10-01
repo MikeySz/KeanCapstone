@@ -37,7 +37,7 @@ kivymd==0.104.2
 MarkupSafe==2.1.0
 numpy==1.22.3
 oauthlib==3.2.0
-opencv-python==4.5.5.64
+opencv-python==4.8.1.78.64
 openstep-parser==1.5.3
 pbxproj==3.3.1
 Pillow==9.0.1
